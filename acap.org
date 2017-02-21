@@ -1,0 +1,101 @@
+#+TITLE: Arquitectura y Programación de Altas Prestaciones
+
+* Datos de la asignatura
+- Profesora: Maribel García Arenas ([[mgarenas@ugr.es]])
+  Despacho 32 (2ª planta)
+
+Lenguajes: C, C++, Java, Fortran
+
+* Tareas
+
+** TODO Elegir problema para prácticas 3 y 6
+
+** TODO Paralelizar programa cpi-seq para MPI
+
+** TODO GRUPO Buscar cómo son las máquinas...
+...de Fujitsu para HPC según las clasificaciones, ver el sistema de memoria
+
+- 2 transparencias, no más
+- -> día 7/3
+
+** Instrucciones para trabajos -- grupo 3
+
+1 persona busca información
+2 personas revisan y seleccionan
+1 persona monta la presentación
+1 persona la cuenta
+
+Las tareas rotan en cada trabajo
+
+* Teoría
+** 1. Arquitecturas MIMD
+
+*** HPC
+
+Un punto clave de High Performance Computing es el aprovechamiento de toda la infraestructura.
+
+Ejemplos de uso:
+- Ingeniería asistida por ordenador
+- Modelado molecular
+- Análisis de genoma
+- Modelado numérico
+
+*** Clasificación de arquitecturas MIMD
+
+Enfoque clásico: taxonomía de Flynn (SISD, SIMD, ~MISD~, MIMD)
+
+**** Otros criterios de clasificación
+- estructurales
+- de control
+
+***** Distribución física de memoria
+- Centralizadas
+- distribuidas
+***** Espacio de direcciones
+- único
+- múltiple
+***** Tiempo de acceso a memoria
+Decidido por el tiempo que tarda un procesador en acceder a cualquier dirección de memoria.
+- UMA
+- NUMA
+***** Red de interconexión
+- Indirecta (en los nodos de la red no hay cpus)
+- Directa (hay cpus en los nodos de la red)
+***** Multicomputadores vs multiprocesadores
+Tendencias actuales en HPC, tener nodos que son multiprocesadores conectados entre sí formando un multicomputador
+
+**** Multicomputadores
+- tiempos de acceso a memoria inferior (menor latencia si es memoria local)
+- más escalables o ampliables
+- sincronización por mensajes
+- programación más compleja
+- paso de mensajes
+  - síncrono
+  - asíncrono
+
+**** Multiprocesadores
+- tiempos de acceso a memoria mayor (mayor latencia según el número de conflictos)
+- sincronización por hardware => programación más sencilla
+- zonas de memoria compartida
+
+Pueden ser
+- UMA
+- NUMA
+  - CC-NUMA
+  - COMA
+
+CC-NUMA y COMA se diferencian en el protocolo de coherencia usado.
+
+
+** 2. Modelos de Programación paralela adaptados a la arquitectura
+
+** 3. Redes de Interconexión
+
+* Prácticas
+
+** Notas
+
+*** Ejecución de programas / toma de medidas
+- Los ordenadores con id~140xxx y 142xxx no comparten subred, luego no usarlos para tomar tiempos
+- Al ejecutar programas sobre una sola máquina usar la versión paralela en secuencial (no un programa distinto que realice la misma tarea y tenga menos instrucciones...) ~> afecta al cálculo de la ganancia de velocidad.
+- No vamos a evaluar las "otras posibles medidas"
