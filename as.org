@@ -1,0 +1,133 @@
+#+TITLE: Arquitectura de Sistemas
+
+* Tareas
+** Ejercicios voluntarios
+*** Resumen sobre [[http://www.anandtech.com/show/10025/examining-soft-machines-architecture-visc-ipc][VISC]]
+
+* Teoría
+** 1. Soporte hardware
+
+**** Componentes
+
+***** Memoria
+
+****** Caché
+
+****** Protección de memoria: memoria virtual
+
+Memoria virtual: El procesador proporciona trozos de memoria "ficticios" que pueden ser mayores de la memoria disponible. Tipos:
+- Segmentación
+- Paginación
+
+El respaldo de memoria que no esté disponible se realiza en disco.
+
+La unidad de gestión de memoria (MMU) realiza la traducción de las direcciones virtuales a físicas.
+
+Nota: cada instrucción x86 podría implicar varios accesos a memoria. Además de cada instrucción, alguno de los operandos puede estar en memoria.
+
+Cada traducción de dirección puede llegar a tardar miles de ciclos de reloj. Además, el tamaño de una tabla de páginas completa podría ser muy larga, ya que se habilitan muchas más páginas virtuales que físicas.
+
+*Solución en x86-64: tabla de páginas multinivel*
+
+Se extraen trozos de 9 bits que dan la dirección base de la página del siguiente nivel, y así hasta llegar a la página de memoria buscada. Cada petición a una página tarda unos 100 ciclos, luego se pueden acumular unos 500 ciclos simplemente para pedir una dirección.
+
+Para ahorrar tiempo, se almacena una table/caché de traducciones en memoria caché totalmente asociativa, muy cara pero muy rápida.
+
+Al cambiar de programa se borran las cachés y por tanto la tabla de traducciones que había tardado miles de ciclos en crearse.
+
+****** Buffer de traducción anticipada (TLB)
+
+Una forma de "no tirar" una traducción almacenada en el TLB es etiquetarla con el proceso. Así se pueden mantener aun cambiando programas. Esto se suele hacer únicamente al trabajar con máquinas virtuales.
+
+Puesto que las hebras sí comparten espacio de direcciones, y por tanto tabla de traducciones, es más común ahora programar grandes procesos con muchas hebras, que varios procesos (más lento al tener distintos espacios de direcciones).
+
+****** Esquemas de direccionamiento de caché
+
+Si tenemos una caché con direccionamiento virtual podemos buscar mayor rapidez sin pasar por el TLB para recuperar datos.
+
+Las arquitecturas modernas implementan soluciones mixtas: los primeros niveles de caché suelen ser virtuales y los siguientes, físicos. (p53, 3ª figura)
+
+***** Interacción
+
+***** Entrada/salida
+
+***** Excepciones e interrupciones
+
+> Son un lío
+> Son un follón
+> Nadie sabe lo que son
+> -- Gustavo, 2017
+
+Excepciones:
+ - ocurren dentro del procesador (e.g. división por cero)
+ - son predecibles y reproducibles
+
+Interrupciones:
+ - ocurren fuera del procesador
+ - no son predecibles ni reproducibles
+
+No todas las excepciones son erróneas: por ejemplo, el fallo de página (la petición de un trozo de memoria que no está disponible), o los puntos de ruptura (insertados por depuradores)
+
+****** La interrupción software: int, trap
+
+Son esencialmente excepciones (lol).
+
+****** Vector de interrupciones
+
+Antiguamente contenía 256 entradas y se almacenaba en el primer KB de memoria. Ahora, hay un registro de procesador que indica dónde está almacenada, para permitir mayores tamaños y flexibilidad.
+
+****** Temporización
+
+Las interrupciones ocupan tiempo, en general no afectan a la ejecución de programas. Las aplicaciones de tiempo real no se pueden permitir interrupciones: por ejemplo, el reproductor de sonido que emite 44100 muestras de audio por segundo.
+
+Soluciones
+- deshabilitar las interrupciones
+  - no funciona si se trabaja en un multiprocesador y otro proceso puede "meterse en nuestra memoria"
+- ejecutar instrucciones atómicas (test-and-set, cmpxchg, ldl/stc)
+
+El procesador puede enmascarar/deshabilitar las interrupciones y asignarles niveles de prioridad. Con esta última opción, por ejemplo un dispositivo rápido puede interrumpir a uno lento y no al contrario (e.g. la controladora de red interrumpe al controlador de teclado).
+
+****** Procesamiento de interrupciones
+
+- icall, iret llaman y vuelven del controlador software
+
+****** Técnicas de E/S
+
+- E/S programada (polling)
+  - Se consulta continuamente un estado para comprobar novedades
+- E/S mediante interrupción
+  - Se obtiene un evento cuando el estado cambia
+- Acceso directo a memoria
+  - Se añade un chip independiente que conoce los trozos de memoria que debe enviar (y este se gestiona mediante interrupciones). Esto deja libre a la CPU.
+
+****** Direccionamiento físico de la memoria principal
+
+****** El temporizador
+
+Ejemplo: en MS-DOS los procesos no podían ser interrumpidos (y sólo se podía cambiar de proceso cuando llamaban al sistema). Después se añadió la interrupción de temporizador periódica (y en cada una se comprueba si es conveniente cambiar de proceso, etc.).
+
+Actualmente, el temporizador se reprograma tras cada evento. Por ejemplo, si no hay ninguna aplicación de tiempo real ejecutándose, se pueden hacer los trozos de tiempo más largos. Y si se ejecuta e.g. un reproductor de sonido, se programa el temporizador para activarse cuando se necesite enviar más datos a la tarjeta de sonido.
+
+* Prácticas
+
+** 1. Entorno de desarrollo
+
+> En el binario está la verdad, los unos y ceros
+> --Gustavo, 2017
+
+`strip` sirve para eliminar todo lo innecesario de un ejecutable y reducir así su tamaño.
+
+`nm` revela los símbolos de un ejecutable y `c++filt` traduce los nombres a funciones de c++
+
+`nm pienso2 | c++filt`
+
+`ulimit` nos indica y modifica los límites de nuestro sistema
+`ulimit -c unlimited` para generar corse
+
+> El compilador hace cosas raras. Recordadlo
+> --Gustavo, 2017
+
+*** GDB
+
+*Puntos de ruptura condicionales:*
+`break bug.cc:12 if f == i`
