@@ -1,0 +1,55 @@
+#+TITLE: Ingeniería, Empresa y Sociedad
+#+STARTUP: indent, bullets
+
+* Datos de la asignatura
+
+- Profesora: Matilde 'Mati' Ruiz ([[matilderuiz@ugr.es]])
+
+Bibliografía:
+  - 
+
+Evaluación
+  - Prácticas (30%)
+    - Participación
+    - Casos prácticos
+  - Examen final (70%)
+    - 10 preguntas v/f o test + 5 preguntas teórico/prácticas cortas
+    - "Exámenes continuados a lo largo del cuatrimestre"
+
+* Teoría
+** 1. Empresa y dirección de empresas
+Áreas de una empresa:
+- Dirección
+- Producción
+- Marketing
+- Finanzas
+- Recursos humanos
+
+*** 1.1. Conceptos
+Economía:
+- Definición de Malthus: en la Tierra los recursos son escasos, y la economía estudia la distribución eficiente de los recursos escasos
+
+Administración de empresas:
+- Es una disciplina científica
+- No es una ciencia experimental sino social
+- Economía de la empresa
+
+**** La empresa es una organización
+
+**** Definiciones de organización
+- Unidad coordinada por un mínimo de dos personas que trabajan para alcanzar un objetivo o conjunto de objetivos comunes (Gibson++ 1996)
+
+Clasificación de organizaciones:
+- con ánimo de lucro (e.g. Inditex [Industria de Diseño Textil SA]. Objetivo fundamental: maximizar el beneficio. Según ellos, "escuchar atentamente a los clientes para ofrecerles las propuestas de moda que desean")
+- sin ánimo de lucro (e.g. Electronic Frontier Foundation. Objetivo fundamental: conservar los derechos de libertad de expresión en el contexto de la era digital actual)
+
+*** 1.2. Enfoque sistémico
+
+*** 1.3. Los subsistemas funcionales
+
+*** 1.4. La dirección de empresas
+
+** 2. Teorías de la empresa y empresario
+** 3. Entorno de la empresa
+** 4. Dirección estratégica
+** 5. Dirección financiera
