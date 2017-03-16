@@ -43,11 +43,213 @@ Clasificación de organizaciones:
 - con ánimo de lucro (e.g. Inditex [Industria de Diseño Textil SA]. Objetivo fundamental: maximizar el beneficio. Según ellos, "escuchar atentamente a los clientes para ofrecerles las propuestas de moda que desean")
 - sin ánimo de lucro (e.g. Electronic Frontier Foundation. Objetivo fundamental: conservar los derechos de libertad de expresión en el contexto de la era digital actual)
 
+**** Concepto de empresa
+
+Algunas definiciones de libros:
+- Un conjunto ordenado de factores productivos
+- Unidad de decisión
+- sistema en el que se coordinan factores de producción financiación y marketing
+- un conjunto de factores de producción coordinados
+
+Vamos a coger lo que nos parece bueno y suplir cosas que les falten.
+
+- La empresa es una organización que transforma un conjunto de recursos físicos, monetarios y cognitivos en bienes y/o servicios, con el objetivo principal de obtener beneficios.
+
+¿Es maximizar el beneficio el único objetivo? Dos teorías:
+- Sí, maximizarlo siempre cuando se respeten las leyes, las normas de economía capitalista y evitando fraudes (Friedman)
+- No, las empresas tienen que buscar satisfacer a los propietarios y a los stakeholders --grupos de interés de la empresa-- (Freeman)
+
+Stakeholders:
+- Internos
+  - empleados
+  - gerentes
+  - propietarios
+- Externos
+  - proveedores
+  - sociedad
+  - gobierno
+  - acreedores
+  - clientes
+
+**** La empresa social
+
+Para ellas el beneficio es un medio y no un fin. El fin fundamental puede estar relacionado con problemas sociales y/o medioambientales.
+
+Ejemplos: ASHOKA, SocialEmprende
+
+Dry Blue Spot S.L. persigue objetivos sociales claramente porque quiere llevar análisis de sangre a países en la pobreza. Sin embargo mantiene una forma jurídica tradicional (sociedad limitada)
+
+**** Clasificación de empresas (en España)
+
+***** atendiendo a su forma jurídica
+
+La responsabilidad de una empresa puede ser:
+- limitada o ilimitada
+- solidaria o mancomunada
+
+Responsabilidad limitada: se responde únicamente por el capital aportado a la sociedad
+Responsabilidad ilimitada: se responde con todo el patrimonio ante las deudas (incluso el que no es de la empresa)
+
+Responsabilidad solidaria: se reparte la responsabilidad equitativamente entre los socios
+Responsabilidad mancomunada: cada socio responde por su parte
+
+Constituir una empresa como empresario individual con responsabilidad ilimitada es mucho más fácil, también se paga impuestos según el IRPF y no según el impuesto sobre sociedades.
+
+como personalidad jurídica:
+- NIF
+- CIF (todas las empresas que son "sociedad" tienen uno)
+
+Los empresarios individuales (aka autónomos) son los únicos que pueden no tener un CIF, entonces su empresa se identifica con su propio NIF y son siempre de responsabilidad ilimitada.
+
+Nueva forma de autónomo: *emprendedor de responsabilidad limitada*, como el empresario individual pero no se le tocarán los bienes fundamentales (primera vivienda...)
+
+Formas societarias (sociedades mercantiles):
+- colectiva: los socios aportan capital y trabajo, y la responsabilidad es ilimitada y solidaria, pero sólo participan del beneficio en proporción de la parte aportada
+
+- comanditaria: como las colectivas, pero hay socios comanditarios que sólo aportan capital y no trabajo, y cuya responsabilidad es limitada a lo que aportan
+
+- limitada (SL): 3000 € de capital mínimo de constitución, la responsabilidad es limitada al capital aportado, se divide en *participaciones sociales* (que no son objeto de compraventa libre) cuyo reparto está muy controlado para que la SL sea estable y no cambie rápidamente de manos
+  - limitada unipersonal (SLU): constituida por una sola persona, pero esencialmente funciona como una SL con sus capitales mínimos y estatutos y tributa por el impuesto de sociedades
+  - limitada nueva empresa (SLNE): se constituye por procedimiento telemático en 48 h, se permite un cambio de denominación social en 3 meses
+
+- anónima (SA): 60000 € de capital mínimo, es el único tipo que puede cotizar en bolsa. Partes alicuotas para dividir el capital, llamadas *acciones*. Generalmente 1 acción = 1 voto, pero en ocasiones hay voto acumulativo. También pueden existir acciones sin derecho a voto.  Tributan por impuesto de sociedades. La responsabilidad es limitada.
+
+- de economía social: se consideran más uniones de trabajadores que de capitales
+  - cooperativa: tienen regulación estatal y autonómica, altamente variable según la autonomía. El principio para la toma de decisiones es 1 persona = 1 voto [J.C: eso no es así exactamente pero bueno]. El beneficio se llama *retorno*. Las reservas --la parte de los beneficios que se ha de quedar en la empresa para el año siguiente-- obligatorias en una SC son más altas.
+    - cooperativa andaluza (SCA)
+  - laboral: al menos el 51% del capital social está en manos de los trabajadores. Las sociedades limitadas tradicionales pueden pasar a ser laborales si hay una situación de crisis y se reestructura el capital (caso Librerías Urbano)
+
+****** Ejemplos de cooperativas
+
+La corporación vasca Mondragón, que abarca empresas cooperativas como Orona, Fagor, Eroski, Universidad Mondragón.
+
+***** Atendiendo a su tamaño
+
+| categoría    | num trabajadores | volumen de negocios anual | balance general anual |
+|--------------+------------------+---------------------------+-----------------------|
+| grande       | >= 250           | > 50 mill €               | > 43 mill €           |
+| mediana      | < 250            | <= 50 mill €              | <= 43 mill €          |
+| pequeña      | < 50             | <= 10 mill €              | <= 10 mill €          |
+| microempresa | < 10             | <= 2 mill €               | <= 2 mill €           |
+
+El 99.9% de las empresas españolas son PYMEs (autónomos y empresas pequeñas y medianas)
+
+***** Notas sobre *balance general anual*
+
+La suma del activo debe ser igual a la suma del pasivo.
+
+Activo: conjunto de bienes y derechos de la empresa
+
+Pasivo: conjunto de obligaciones de pago de la empresa
+- capital
+- reservas
+- obligaciones
+
+Cada operación en el activo tiene una equivalente en el pasivo (se ha dejado a deber) o se aminora de los activos, de forma que la diferencia activo-pasivo = 0.
+
+> Si el balance no está cuadrao algún descuadre hay
+> --Lamati
+
+
 *** 1.2. Enfoque sistémico
+
+La forma más útil de conceptualizar una empresa es como un /sistema/.
+
+Condiciones para la existencia de un sistema:
+
+- conjunto de elementos
+- estructura de sistema
+- plan común
+- funciones características
+- conjunto de estados/situaciones observables
+
+Como una empresa cumple todos estos puntos, se puede considerar un sistema.
+
+Los sistemas pueden ser
+
+- abiertos ("permeable") / cerrados ("no interaccionan con el exterior")
+- naturales (sistema solar) / artificiales ("creados por el ser humano")
+
+La empresa es un sistema abierto artificial.
+
+**** Sistema empresa
+
+El proceso de transformación de la empresa convierte INPUTS en OUTPUTS creando valor (que es la justificación de la fijación de un precio superior al coste), y autorregulada mediante una función de CONTROL que analiza si los OUTPUTS verifican los requisitos.
 
 *** 1.3. Los subsistemas funcionales
 
+La empresa se puede descomponer en distintos subsistemas que deben funcionar de forma coordinada. Si funcionan bien, interactúan para obtener *sinergias* (es siempre positiva por definición).
+
+Para realizar esta división se utiliza el criterio funcional.
+
+> Hay empresas que consideran otras funciones muy importantes y tienen departamentos separados, como el de Calidad.
+
+En la teoría se definen 6 subsistemas.
+
+**** Subsistema de aprovisionamiento
+
+Compraventa de factores necesarios (cosas, no personas) para el proceso productivo
+
+**** Subsistema de producción
+
+Transforma los factores en productos para satisfacer las necesidades del mercado
+
+**** Subsistema de comercialización (marketing)
+
+Estudios de mercado => estimaciones de demanda => decisiones sobre producción, precio, promoción y distribución
+
+Las cuatro Ps:
+
+- Product
+- Price
+- Promotion
+- Place
+
+Las siete Ps:
+
+- People
+- Process: servitización (añadir servicios a un producto)
+- Physical environment
+
+El enfoque de las 7 Ps se ha quedado anticuado y ahora se ha pasado a las 4 Cs:
+
+- Customer
+- Cost
+- Communication (en vez de Promotion, ya que ahora se puede interactuar bidireccionalmente con los clientes)
+- Convenience
+
+Hay gente que dice que esto está anticuado también, porque lo que mola es buscar más /buzzwords/.
+
+**** Subsistema de recursos humanos
+
+reclutamiento => selección => orientación, capacitación, evaluación
+
+**** Subsistema financiero
+
+Determina si las decisiones son buenas o malas según la viabilidad financiera.
+Se integra en este el subsistema contable.
+
+**** Subsistema de dirección
+
 *** 1.4. La dirección de empresas
+
+Disciplina que intenta estudiar por qué empresas con mismas circunstancias obtienen mejores resultados unas que otras.
+
+**** Planificación
+
+**** Organización
+
+Asignar recursos y coordinarlos entre sí
+
+**** Dirección
+
+> La dirección es importante en la dirección de empresas
+
+Motivación a ls empleados, resolución de conflictos, liderazgo que lidere, dirigir los recursos hacia los objetivos.
+
+**** Control
+
+Monitorizar los resultados, comparar con los objetivos, medir las desviaciones y aplicar acciones correctoras.
 
 ** 2. Teorías de la empresa y empresario
 ** 3. Entorno de la empresa
