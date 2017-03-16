@@ -4,6 +4,17 @@
 ** Ejercicios voluntarios
 *** Resumen sobre [[http://www.anandtech.com/show/10025/examining-soft-machines-architecture-visc-ipc][VISC]]
 
+*** IOMMU
+Unidad de gestión de memoria específica para dispositivos de I/O. Resumen a mano.
+
+*** Coste del cambio de contexto
+
+Encontrar una comparativa entre distintos SO o SO de distinto tipo
+
+*** Famosa discusión Torvalds-Tanenbaum
+
+Resumen y visión crítica personal
+
 * Teoría
 ** 1. Soporte hardware
 
@@ -108,6 +119,233 @@ Ejemplo: en MS-DOS los procesos no podían ser interrumpidos (y sólo se podía 
 
 Actualmente, el temporizador se reprograma tras cada evento. Por ejemplo, si no hay ninguna aplicación de tiempo real ejecutándose, se pueden hacer los trozos de tiempo más largos. Y si se ejecuta e.g. un reproductor de sonido, se programa el temporizador para activarse cuando se necesite enviar más datos a la tarjeta de sonido.
 
+** 2. Introducción a los sistemas operativos
+
+*** Abstracciones
+
+Las tres abstracciones importantes en el ordenador:
+
+1. Memoria/Espacio de direcciones/RAM
+   Unidad de protección: elimina la capacidad para acceso en direcciones protegidas
+   Secciones de memoria para un proceso:
+   - .text (código)
+   - .data (datos inicializados), .bss (datos sin inicializar)
+   - heap 
+   - stack: contiene una copia del instruction pointer (IP)
+     incluye los marcos de procedimiento
+     está situada al final de la memoria (por razones de falta de memoria en ordenadores antiguos)
+
+2. Procesos, hebras, tareas
+   El programa es la "receta", el proceso es el resultado, la instancia del programa en ejecución. Consta esencialmente de un espacio de direcciones y un puntero de instrucción (ip, %rip...)
+
+3. Comunicación entre procesos
+   Los libros describen 3 tipos: memoria compartida, paso de mensajes, ficheros (tuberías, sockets)
+
+**** Concurrencia y paralelismo
+
+Aprenderemos a gestionar y resolver condiciones de carrera
+
+**** Gestión de memoria
+
+A los programas los engañamos como a chinos:
+
+***** Código relocalizable
+código que se ejecuta exactamente igual independientemente de las direcciones en las que se ejecute.
+***** Memoria virtual
+Proporcionamos a los procesos más memoria de la realmente disponible. El mapeado de porciones de memoria virtual en memoria física se hace de forma automática.
+Las regiones (páginas) no necesariamente son continuas. Las páginas se pueden guardar y recuperar de disco.
+
+**** Planificación de recursos
+
+Criterios: equidad, tiempo de respuesta, eficiencia.
+
+Se suele distinguir entre políticas y mecanismos: paginación mediante despacho, paginación mediante reemplazo, interacción (entre procesos) mediante comunicación.
+
+**** Gestión de E/S
+
+Los controladores software proporcionan interfaces
+
+- homogéneas (UNIX)
+- específicas y heterogéneas (Windows)
+
+Componentes de un controlador software:
+
+- código de inicialización
+- llamada al sistema
+- manejador de interrupciones
+
+**** Ficheros
+
+Almacenamiento persistente:
+
+- ficheros
+- directorios (esencialmente, ficheros que contienen metadatos)
+
+Tipos de ficheros:
+
+- tradicionales: en disco, se gestionan mediante llamadas al sistema
+- mapeados en memoria: viven en la memoria principal pero están montados en el sistema de ficheros. Se pierden si se desconecta la alimentación, pero se pueden ir volcando periódicamente a disco.
+
+*** Llamadas al sistema
+
+Se puede interactuar con el sistema (mediante llamadas) a través de APIs del sistema como Win32 o POSIX.
+
+Para pasar los parámetros se usaba tradicionalmente la pila, actualmente se suele usar el conjunto de registros.
+
+** 3. Historia de los sistemas operativos
+
+> Rápido o seguro. Los dos a la vez no.
+> Habrá gente que diga que sí se puede. No se puede.
+> --Gustavo, 2017
+
+*** Historia
+
+**** Primera generación
+
+Eran una calculadora gorda. Formados por dispositivos mecánicos. Programados al principio con cables, y luego pasaron a interruptores y tarjetas perforadas.
+
+Sólo eran capaz de usarlos los que los habían diseñado y construido.
+
+**** Segunda generación
+
+Aparición de los transistores. Época de los mainframes.
+
+Programación en ensamblador y Fortran... sobre tarjetas perforadas.
+
+Sistemas operativos: FMS, IBSYS.
+
+**** Tercera generación
+
+Además de cálculo, empiezan a utilizarse para procesamiento de caracteres (bases de datos...).
+
+SOs: OS/360, CTSS, MULTICS, UNIX
+
+Logros:
+
+- multiprogramación
+- spooling
+- tiempo compartido
+
+**** Cuarta generación
+
+Transistores más pequeños y baratos => popularidad.
+
+IBM PC
+
+Logros:
+- GUI
+- Comunicaciones: SO con red
+- SMP
+- SO distribuidos
+
+SOs: UNIX, CP/M, MS-DOS, Linux, macOS, Windows
+
+*** Estructura
+
+Lo que más ha cambiado a lo largo del tiempo es la relación entre el precio de un ordenador y el precio del tiempo de las personas (aka sueldo).
+
+**** Monolíticos
+
+El SO completo se ejecuta como un único programa, en modo protegido. No hay protección entre componentes. No hay cambios de contexto.
+
+Inconvenientes: menos fiable (controladores) y más complejo
+
+**** Capas / Niveles
+
+> Ni dios tiene ni idea de cuántas capas poner. Ni dios tiene ni idea de qué poner en cada capa.
+
+Sólo evita la complejidad del monolítico, pero lo hace menos flexible.
+
+**** Modular
+
+Escasa protección.
+
+> Ni dios tiene ni idea de qué colocar en el núcleo y qué en módulos
+
+**** Micronúcleo
+
+El micronúcleo es lo único que se ejecuta en modo protegido => muy fiable
+
+Los componentes tienen que cooperar entre ellos a través del micronúcleo => menor eficiencia.
+
+- Micronúcleo menos 'puro': se implementa un SO "de biblioteca" en plan monolítico pero en modo usuario.
+
+**** Exonúcleo
+
+Sólo aplicada en SO experimentales antiguos.
+
+El exonúcleo es un gestor de recursos, asigna porciones de disco, memoria y CPU a cada proceso.
+
+**** Máquina virtual
+
+Las máquinas virtuales más sencillas son esencialmente programas que traducen instrucción a instrucción de una arquitectura a otra.
+
+Una complicación es simular hardware (e.g. simular los dispositivos de un teléfono móvil)
+
+La "máquina virtual" de Java traduce el bytecode (una abstracción sobre la arquitectura de un ordenador) a instrucciones reales. El bytecode se puede precompilar para la arquitectura concreta donde se va a ejecutar.
+
+Las máquinas como VMWare o Virtualbox tratan de traducir lo menos posible. Esencialmente traducen llamadas al sistema.
+
+**** Híbrida
+
+Mezcla frecuente: micronúcleo + monolítico
+
+Trata de ser un término medio entre ambos. Algunos componentes se incluyen en el micronúcleo para aumentar la velocidad.
+
+*** Ejemplos
+
+**** MS-DOS
+
+Cualquier proceso se comunica directamente sobre el hardware.
+
+"El wordperfect incluía sus propios controladores de impresora!"
+
+**** Windows 2000 (NT)
+
+Empezó como un desarrollo de tipo microkernel, se acabaron incluyendo componentes hasta dejarlo prácticamente monolítico.
+
+**** Linux
+
+Es monolítico, con módulos que se pueden activar y desactivar.
+
+**** Mach
+
+Micronúcleo. No tuvo éxito comercial
+
+**** OS X
+
+Frankenstein Mach + BSD.
+
+**** QNX
+
+Microkernel(o monolítico?) de verdad que se utiliza en sistemas empotrados y va muy rápido. De los comerciales, el único con cierto éxito. Implementa un mecanismo de resurrección: si un servicio se cae, lo mata y arranca otro nuevo.
+
+*** Comparativa
+
+> Atravesar la línea roja es la muerte
+> --Gustavo, 2017
+
+- Las llamadas al sistema de los micronúcleos son mucho más rápidas que en monoliticos, del orden de 5 a 1. El problema es que, en la práctica, los servidores suelen requerir muchas llamadas entre sí.
+
+- L4 es un micronúcleo que sí es capaz de compensar el número de llamadas. L4Linux es Linux como SO de biblioteca montado sobre el micronúcleo L4 y proporciona prácticamente el mismo rendimiento. No está claro por qué no se han sustituido ya los sistemas monolíticos por micronúcleos.
+
+
+** 4. Procesos
+
+/copy on write/ copiar sólo cuando escribimos algo diferente. Sirve para hacer /forks/ de un proceso.
+
+Con la señal =break= se aumenta la memoria dinámica de forma consecutiva. Con =nmap= no tiene por qué ser consecutiva.
+
+El canario es una medida de seguridad, un código que se deja en memoria y se comprueba que se conserve (evitar procesos maliciosos que hagan /buffer overrun/ o similar).
+
+*** Control
+
+La ejecución de SO más común es "Ejecución *dentro* del los procesos de usuario"
+
+*** Estado
+
+
+
 * Prácticas
 
 ** 1. Entorno de desarrollo
@@ -131,3 +369,12 @@ Actualmente, el temporizador se reprograma tras cada evento. Por ejemplo, si no 
 
 *Puntos de ruptura condicionales:*
 `break bug.cc:12 if f == i`
+
+** 2. Sector de arranque
+
+- .code16: indicamos que el código es de 16 bits
+- -Ttext 0x7C00: colocamos nuestro "programa" para ser ejecutado en la dirección 0x7c00
+- la firma: el bootloader debe terminar (los últimos 2 bytes) en 0xaa55
+- no queremos un binario ELF, sino normalito: --oformat binary
+
+** 3. El teclado del PC
