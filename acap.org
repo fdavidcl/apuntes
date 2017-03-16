@@ -10,13 +10,19 @@ Lenguajes: C, C++, Java, Fortran
 
 ** TODO Elegir problema para prácticas 3 y 6
 
-** TODO Paralelizar programa cpi-seq para MPI
+** DONE Paralelizar programa cpi-seq para MPI
 
-** TODO GRUPO Buscar cómo son las máquinas...
+** DONE GRUPO Buscar cómo son las máquinas...
 ...de Fujitsu para HPC según las clasificaciones, ver el sistema de memoria
 
 - 2 transparencias, no más
 - -> día 7/3
+
+** TODO GRUPO: Buscar dos benchmark...
+para un sistema HPC, explicar en qué consiste el benchmark y su salida.
+-> martes 21
+Buscar dos bechmark para un sistema HPC, explicar
+en qué consiste el bechmark y su salida.
 
 ** Instrucciones para trabajos -- grupo 3
 
@@ -86,8 +92,151 @@ Pueden ser
 
 CC-NUMA y COMA se diferencian en el protocolo de coherencia usado.
 
+*** Evaluación de prestaciones
+
+**** Factores que limitan la escalabilidad
+
+***** Limitaciones del algoritmo
+
+Notaremos =p= a la parte paralela y diremos que la ejecución del algoritmo tarda una unidad de tiempo: =s= + =p= = 1.
+
+- El reparto de las tareas cuando hay diferentes unidades de ejecución no es equitativo, a causa de diferencias de tamaño y dependencias entre tareas
+- Todos los algoritmos tienen una parte secuencial =s=
+- En concreto, el reparto y la recogida de tareas serán secuenciales
+
+***** Otras limitaciones
+- Startup overheads (lanzamiento de procesos)
+- Cuellos de botella: Uso de recursos compartidos.
+- Las comunicaciones siempre serán en serie (sólo hay una tarjeta de red! y si hay más de una, los accesos a memoria serán serializados)
+
+**** Prestaciones
+
+***** Mediciones de tiempos
+
+- Definir lo que se va a considerar trabajo a paralelizar
+- No se deben de tener en cuenta a la hora de medir tiempos: entrada/salida (lectura y escritura de ficheros)
+- Incluir el wall time --tiempo que está el proceso en CPU
+
+***** Escalabilidad paralela
+
+- ¿Cómo va de rápido más con N trabajadores?
+- ¿Cuánto trabajo más podemos hacer con N trabajadores?
+- ¿Cómo impacta la comunicación en la ejecución paralela?
+- ¿Cuántos recursos están siendo utilizados productivamente?
+
+***** Medidas de escalabilidad
+
+*Escalabilidad fuerte*: Supondremos que la parte secuencial =s= es fija, y la parte paralela =p= se reparte en el número de trabajos paralelos. La cantidad de trabajo realizado es siempre la misma.
+
+*Escalabilidad débil*: Se realiza mayor cantidad de trabajo en el mismo tiempo.
+
+***** Leyes simples de escalabilidad
+
+****** Ley de Amdahl (Productividad: Trabajo / Tiempo)
+
+Asume que la cantidad de trabajo realizada es siempre la misma. De esta se deduce la Ley de Amdahl.
+
+****** Ley de Gustafson
+
+Asume que la cantidad de trabajo va aumentando conforme se aumenta el número de procesos. Demuestra que, de esta forma, es posible conseguir ganancias superlineales, a diferencia de Amdahl que afirmaba que no era posible.
+
+Hay que usar esta ley cuando la cantidad de trabajo es variable (e.g. si el trabajo aumenta o si el algoritmo tiene componentes aleatorias).
+
+****** Situación intermedia a Amdahl y Gustafson
+
+***** Eficiencia paralela
+
+$\varepsilon = \frac{perf_N}{N\times perf_1} = \frac{speedup}{N}$
+
+**** Mejora de prestaciones básicas
+
+- Salir de bucles =break= y saltar iteraciones =continue= cuando ahorre instrucciones
+
+- Evitar operaciones costosas (construir tablas con datos calculados)
+
+- Reducir cantidad de memoria (ajustar los tipos para que ocupen lo necesario)
+
+- Evitar saltos (ifs) cuando sea posible
+
+- Adaptarse al conjunto de instrucciones
+
+- Optimizaciones del compilador: funciones /inline/, alineamiento de variables, optimizar con registros
+
+**** Balanceo de carga
+
+**** Jitter
+
+Si hay muchos procesos el SO tiene alta probabilidad de interrumpir cosas.
 
 ** 2. Modelos de Programación paralela adaptados a la arquitectura
+
+*** Encontrar concurrencia
+
+**** Descomposición de tareas
+
+Los algoritmos deben tener
+- Flexibilidad: adaptarse a las modificaciones del problema
+- Eficiencia: "si ejecutamos en n procesos, debe haber n tareas"
+- Simplicidad
+
+Hay compiladores que tratan de extraer paralelismo de las tareas. Funcionan mal generalmente.
+
+Normalmente se empieza a repartir unidades de ejecución muy pequeñas.
+
+Las tareas deben permitir ser de tamaño variable, compensar el esfuerzo de crear hebras/procesos para ellas, y fácilmente depurables.
+
+**** Descomposición de datos
+
+Los datos deben ser descomponibles. Para ello es necesario conocimiento sobre el problema. La descomposición es necesaria si estos datos representan la parte de computación intensiva del algoritmo.
+
+En memoria compartida ~> descomposición de datos = descomposición de tareas
+
+**** Ejemplo: difusión del calor en un sólido
+
+Un cuerpo sólido se puede representar en una estructura tridimensional (tensor). 
+
+- Descomposición de datos: partir la matriz por la mitad y dejar que cada proceso calcule la temperatura en el instante siguiente en toda esa matriz.
+
+- Descomposición de tareas: se reparte el cálculo de la temperatura siguiente en cada punto a lo largo de los procesos (un proceso no se encarga siempre del mismo punto necesariamente).
+
+**** Ejemplo: Imágenes médicas PET (positron emission tomography)
+
+Para mejorar la imagen obtenida en bruto, se modela el cuerpo humano y se simulan muchas otras trayectorias de partículas.
+
+- Descomposición de tareas: la simulación de cada trayectoria va a un proceso (cada una necesita los datos del cuerpo completo)
+
+- Descomposición de datos: partir el cuerpo en varios trozos y que cada proceso simule trayectorias sobre esos trozos (comunicaciones cuando una trayectoria pase de un trozo a otro)
+
+**** Ejemplo: Multiplicación de matrices
+
+Puede que convenga trasponer la segunda matriz para acceder "por filas", verificando así el principio de localidad espacial.
+
+**** Análisis de dependencias
+
+***** 1. Agrupar (para que las dependencias sean menores)
+
+Crucial conocimiento sobre el problema en este paso.
+
+***** 2. Ordenar (para cumplir restrucciones en el procesamiento)
+
+Dependencias:
+- Temporales
+- Simultaneidad
+- Independencia
+
+Generar grafo de tareas.
+
+***** 3. Patrones de compartición (¿cómo pasar los datos entre los grupos de tareas?)
+
+Tener claro qué tareas tienen acceso y con qué permisos =>
+Identificar estructuras de datos a compartir y si son read-only, locales (e.g. suma acumulativa) o rw.
+
+Estructuras /read-write/:
+
+- operaciones acumulativas (e.g. reducciones)
+- multiple read, single write: cada tarea escribe su propio dato de vez en cuando
+
+**** Evaluación
 
 ** 3. Redes de Interconexión
 
@@ -99,3 +248,7 @@ CC-NUMA y COMA se diferencian en el protocolo de coherencia usado.
 - Los ordenadores con id~140xxx y 142xxx no comparten subred, luego no usarlos para tomar tiempos
 - Al ejecutar programas sobre una sola máquina usar la versión paralela en secuencial (no un programa distinto que realice la misma tarea y tenga menos instrucciones...) ~> afecta al cálculo de la ganancia de velocidad.
 - No vamos a evaluar las "otras posibles medidas"
+- Ejecutar en atcgrid con =/usr/lib64/openmpi/bin/mpiexec=
+- Medir tiempos con =MPI_Wtime()= en MPI o =omp_get_wtime= en OpenMP o =clock_gettime(CLOCK_REALTIME, &cgt1)= de C
+*** CUDA
+- CUDA está pensado únicamente para floats, no enteros
