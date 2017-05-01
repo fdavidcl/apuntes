@@ -344,7 +344,215 @@ La ejecución de SO más común es "Ejecución *dentro* del los procesos de usua
 
 *** Estado
 
+** 5. Hebras
 
+*** Introducción
+
+Tiene ventajas separar el *contenedor de recursos* de la *hebra de ejecución*. El proceso se encarga de agrupar recursos y las hebras son entidades planificables.
+
+En un proceso multihebra sólo es necesario un bloque de control de procesos (PCB), en 3 procesos con 1 hebra necesitamos 3 de ellos. La estructura de control de hebras es el TCB (en ambos casos se necesitan 3).
+
+En un sistema multiprocesador las hebras se pueden ejecutar en *paralelo*, mientras que con un procesador se alternarán.
+
+Cooperación: se usan hebras para aprovechar los trabajos realizados unas de otras. Si no fuera necesaria la cooperación se montarían programas independientes. Las hebras no se protegen entre sí porque teóricamente no es necesario, y no se pueden ocultar cosas (sí pueden! Thread Local Storage - variables privadas en la zona de datos).
+
+Estados: se utilizan los mismos que en procesos. No se añade el estado *suspendido* porque se suspende a nivel de proceso.
+
+Espacio de direcciones: cada hebra tiene su pila, IP e SP. Las pilas normales tienen 4K u 8K. En la práctica se colocan aleatoriamente en el espacio del proceso.
+
+El identificador único de hebra puede ser global (normalmente es así) o único por proceso.
+
+Cuando se forkea un proceso multihebra, ¿se copian todas las hebras al hijo? En Linux no porque no distingue procesos y hebras. En otros SO sí.
+
+*** Tipos
+
+**** Tipo usuario
+
+Fueron las primeras que aparecieron. Consiste en colocar el sistema de hebras en el proceso. El SO no tiene ni idea de ellas.
+
+sistema de ejecución de hebras = biblioteca de nuestro lenguaje favorito
+
+Pueden implementarse en cualquier SO y la conmutación es mucho más rápida que la de procesos.
+
+Inconvenientes: no hay paralelismo! Las llamadas al sistema bloquean todas las hebras
+
+**** Tipo núcleo
+
+En algunos SO no se distingue entre procesos y hebras: en Linux se llaman *tasks*.
+
+La gestión se hace via llamadas al sistema => mayor coste.
+
+Reciclaje de hebras: una hebra puede terminar y, si se pide otra, ser "renovada" para usarla.
+
+**** Híbridas
+
+Hebras tipo usuario multiplexadas sobre hebras tipo núcleo. No las usa ni dios.
+
+*** Representación
+
+| TCB mı́nimo                   |
+|------------------------------|
+| identificador de hebra (TID) |
+| puntero de instrucción (IP)  |
+| puntero de pila (SP)         |
+| estado (flags)               |
+
+Normalmente se representan en árboles
+
+*** Ejemplos
+
+**** Windows
+
+Reparte la estructura entre núcleo y usuario.
+
+**** Linux
+
+No distingue: *task*.
+
+Uso de =clone=.
+
+**** Bibliotecas
+
+- POSIX Pthreads
+- Win32
+- Java
+
+** 6. Cambio de hebra
+
+*** Voluntario
+
+- Hay una pila por hebra. Porque es lo más cómodo.
+
+*** Involuntario
+
+En Linux las interrupciones se dividen en:
+- top half: llevan la 'contabilidad' de la interrupción, registran todo lo necesario para preparar la consecución de la interrupción
+- bottom half: procesamiento de la interrupción, no es urgente y puede ser interrumpido => permite anidar interrupciones (pero la top half hay que procesarla por completo siempre)
+
+Las excepciones anidadas suelen indicar fallos en el sistema operativo (ya que el manejador de la excepción primera ya se ejecuta en el SO) => se pueden permitir 2 excepciones anidadas (e.g. para fallos de página)
+
+Al usar =int= e =iret= frente a =call= y =ret= se guarda algo más del estado del procesador (la palabra de estado?).
+
+En 64 bit tenemos instrucciones equivalentes =syscall= =sysret=, =sysenter= =sysexit=.
+
+Estudio de la pila en detalle: esta vez se usan las instrucciones de =call= y =ret= por el sistema, y las =int= y =iret= (o equivalentes) por la hebra (??).
+
+**** Finalización
+
+Para finalizar una hebra y tener algún sitio al que volver, se incluye una hebra /ociosa/ que siempre es ejecutable. Esta hebra no hace cosas que no puedan bloquearla (e.g. un bucle infinito con =halt= o tareas de baja prioridad). El momento en que se introduce en el sistema depende del SO.
+
+**** Inicialización
+
+Al inicializar una hebra, nos "inventamos" su pila y la rellenamos como si hubiera ejecutado su parte de exit/yield.
+
+**** Ventajas e inconvenientes
+
+"Podemos hacer que el propio núcleo se implemente de forma multihebra" -> No se pone en práctica nunca.
+
+** 7. Activación
+*** Estados
+Si tenemos más de una hebra y una cola centralizada => son necesarios estados
+
+*afinidad*: último procesador en el que se ejecutó la hebra. Se intenta repetir procesador para no repetir el rellenado de la caché y el TLB
+
+*estado interno*: una hebra cambia su estado a lo largo de su ejecución
+
+*estado externo*: la relación de una hebra respecto a otras y con el sistema
+- ejecutando
+- preparada
+- bloqueada
+
+*** Modelos
+
+**** Modelo 1 estado
+
+Sólo válido con 1 procesador
+
+**** Modelo 2 estados
+
+Muy primitivo. Representa un sistema estático.
+
+**** Modelo 3 estados
+
+El estado /bloqueado/ se suele desglosar en muchos /mini estados/ para cada tipo de evento. Es más eficiente así. No está claro cómo subdividirlos.
+
+**** Modelando E/S como hebras
+
+No es muy común, se utiliza en un par de sistemas experimentales micronúcleos.
+
+Bloqueado: esperando a la siguiente petición --> ejecutando: resolución de la petición -\
+ ^--------------------------------------------------------------------------------------/
+
+**** Modelo de 5 estados
+
+Otros estados útiles:
+- nuevo
+- finalizado
+
+**** Windows: 7 estados
+
+Tienen los 5 estados anteriores.
+
+Preparado, en espera y ejecutando son listas *por procesador*.
+Los demás son globales para todos los procesadores.
+
+"en espera" permite tener prevista la siguiente hebra a ejecutar de antemano.
+
+De ejecutando se suele volver a preparado en el mismo procesador salvo que se necesite balanceo de carga o cualquier otro problema del estilo.
+
+**** Intercambio/swap
+
+*hiperpaginación*: se realiza tanto cambio de página e I/O con disco para cambiar de hebras y procesos que se ocupa la mayor parte del tiempo, sin ejecutar nada útil.
+
+*** Implementación
+
+**** del estado
+
+Se suele utilizar estructura de árbol
+
+***** como atributo del TCB
+
+***** como estructura de datos
+
+Mucho más eficiente
+
+**** con punteros dentro/fuera del TCB
+
+Si están fuera, la caché posiblemente se llena de muchos punteros poco útiles
+
+**** Hebras y procesos
+
+Los estados de las hebras tipo núcleo están relacionados con los procesos a los que pertenecen. Los estados de las hebras tipo usuario son independientes del de su proceso.
+
+*** Cooperación
+
+** 8. Sincronización
+
+> La gente que escribe depuradores no tiene estatuas en las
+> rotondas, pero deberían hacérselas. --Gustavo, 2017
+
+
+*** Introducción
+
+Cuidao con los recursos que se pasan por punteros y están almacenados en la pila o en el heap!
+
+=volatile= le dice al compilador "No te fíes de esta variable, alguien la trastea". No es buen truco para solucionar problemas de paralelismo.
+
+> ¿Los cuartos de baño no son reentrantes? --Gustavo, 2017
+
+*** Señales
+
+En general siempre nos va a interesar evitar la espera ocupada. La única excepción es que la espera ocupada vaya a tardar menos que el cambio de hebra.
+
+Diapo. 44: interbloqueo! si el contador se modifica desde otra hebra entre =if(contador)= y =bloquear=.
+
+El hecho de que se pierdan señales es beneficioso cuando se realizan de forma acumulativa, por ejemplo señales al planificador en interrupciones anidadas.
+
+Señales con pérdida = banderas o semáforos binarios
+
+Señales sin pérdida = semáforos con contador
+
+Diapo 63: posibilidad de interbloqueo en las asignaciones a =valor=
 
 * Prácticas
 
@@ -378,3 +586,7 @@ La ejecución de SO más común es "Ejecución *dentro* del los procesos de usua
 - no queremos un binario ELF, sino normalito: --oformat binary
 
 ** 3. El teclado del PC
+
+** 6. Hebras II
+
+Los microprocesadores modernos vienen con multitud de registros, algunos de los cuales sirven para análisis de rendimiento. Los programas =oprofile= y =perf= permiten aprovecharlos para analizar procesos.

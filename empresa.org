@@ -1,5 +1,4 @@
 #+TITLE: Ingeniería, Empresa y Sociedad
-#+STARTUP: indent, bullets
 
 * Datos de la asignatura
 
@@ -252,6 +251,376 @@ Motivación a ls empleados, resolución de conflictos, liderazgo que lidere, dir
 Monitorizar los resultados, comparar con los objetivos, medir las desviaciones y aplicar acciones correctoras.
 
 ** 2. Teorías de la empresa y empresario
+
+*** 2.2 Teorías del empresario
+
+> antreprewner
+> --Yábir, 2017
+
+**** Evolución histórica del concepto
+
+- Capitalismo mercantilista: estado como agente económico promiente, los "empresarios" son comerciantes
+- Revolución industrial:
+  - Pensamiento clásico/liberalismo: Adam Smith, "La mano invisible"
+  - Marxismo: Imagen negativa del empresario como persona fría, calculadora (visión marxista del empresario como explotador)
+  - Cantillon: personifica al empresario como la persona que asume riesgos
+    - Say toma esta idea y la amplía diciendo que el empresario no tiene por qué ser el que aporte el dinero sino el que reúne los medios de producción y los organiza para llevar a cabo la actividad empresarial => gestionar el proceso productivo (función directiva => separación entre propiedad y control)
+
+***** Teoría del empresario riesgo de Knight
+
+- Empresario como persona que adelanta el pago de las rentas (e.g. trabajadores, materias primas) según estimaciones realizadas.
+- Asume el riesgo de una mala estimación
+- Justificación del beneficio por la idea de que el empresario asumió un riesgo sobre algo que era incierto (las ventas estimadas)
+
+***** Teoría del empresario innovador de Schumpeter
+
+- Empresario como persona que innova (utiliza la tecnología existente --invención-- para obtener productos y/o procesos nuevos o mejorar los existentes)
+- Ciclos económicos en base al proceso de cambio tecnológico:
+  - Invención
+  - Innovación => Monopolio temporal (beneficio extraordinario)
+  - Imitación => Situación de equilibrio
+- Los empresarios imitadores difunden las innovaciones, también son importantes
+- Justifica el beneficio (incluso el beneficio extraordinario) gracias a la innovación
+
+- El que realiza la invención no tiene por qué ser el empresario
+
+***** La tecnoestructura de Galbraith
+
+Tecnoestructura: órgano colegiado [compuesto por un conjunto de personas que toman decisiones conjuntamente] que se encarga de dirigir la empresa. Compuesto por profesionales de diversos campos del conocimiento. No necesariamente se corresponde con los propietarios de la empresa.
+
+Sienta las bases del gobierno corporativo = separación entre propiedad y control
+
+*** 2.3 Propiedad, dirección y gobierno de la empresa
+
+**** Conceptos
+
+Directivos: supervisan el proceso de combinación de recursos productivos. Puede ser:
+- El mismo propietario
+- El propietario ayudado por otras personas
+- Otras personas en su nombre (el propietario es solo inversor o accionista)
+
+Capitalista: propietario del capital, aporta dinero/bienes a la empresa
+
+*Empresario*: es ambos a la vez. Ejemplo: Elon Musk
+
+> Vais a ser capitalistas, que está guay
+> --Lamati, 2017
+
+Emprendedor: creador de un nuevo negocio
+
+Empresario individual propietario: capitalista y directivo
+Empresario corporativo: como el de la tecnoestructura
+
+**** Estructura de propiedad de la empresa
+
+La propiedad de la empresa corresponde a la persona o grupo de personas que ostentan legalmente la titularidad de la empresa.
+
+Según Bueno Campos, se relaciona con el modo en que se distribuye el capital de la empresa entre sus propietarios legales (e.g. accionistas)
+
+Categorías generales de accionistas:
+- pasivos (inversores financieros)
+- activos (de control)
+
+En una sociedad anónima: estructura *accionarial* ¿quiénes son los propietarios?
+- la propia empresa (autocartera)
+- accionistas mayoritarios y de control (tienen control sonre la empresa)
+- pequeños accionistas (no suelen ser activos, controlarían si se asociaran, sólo buscan rentabilidad, el capital se denomina /flotante/)
+- inversores institucionales: sociedades de inversión, fondos de pensiones, compañías de seguros, etc.; su objetivo es la rentabilidad
+
+**** Gobierno corporativo
+
+Es la definición y concreción de las relaciones entre la administración de las empresas, los accionistas, los directivos y los demás /stakeholders/. Dota a las empresas de una estructura que limita los conflictos que puedan surgir entre las distintas partes. También se añaden criterios respecto a los impactos (medioambientales, culturales, etc.) que produce la empresa.
+
+Hay un código de buen gobierno de la CNMV diseñado para sociedades cotizadas
+
+Mecanismos de control: determinan el modelo de gobierno corporativo que sigue la empresa. Pueden ser:
+- internos (diseñados por la organización)
+- externos (diseñados por el mercado)
+
+Nos centramos en estos mecanismos en las sociedades de capital:
+- Junta General de Socios (Accionistas): toman acuerdos por mayoría. Tiene potestad para *nombrar al consejo de administración*
+  - según la ley de Sociedades de Capital no tiene la potestad de administrar y representar (directamente)
+  - En la práctica las decisiones las viene tomando el consejo ejecutivo y la Junta General sólo "ratifica" las decisiones
+- Consejo de Administración (o 1/2 administradores): personas elegidas por los propietarios para administrar y representar. A su vez eligen la Comisión Ejecutiva.
+  - Consejeros internos o ejecutivos (aka *delegados*)
+    - Ejemplos: los CEOs de las empresas
+  - Consejeros externos dominicales (e.g. de empresas que tienen alta participación) (aka *significativos*)
+  - Consejeros externos *independientes* (profesionales de reconocido prestigio que están ahí para dar su punto de vista o algo)
+    - Ejemplos: Felipe González (Gas Natural), Aznar (News Corp.)
+- Comisión Ejecutiva (o 1/2 consejeros delegados): se encargan de la toma de decisiones del día a día de la empresa
+
+En el modelo español suelen coincidir el presidente del consejo de administración y el de la comisión ejecutiva.
+
+Mecanismos de control externos:
+- Tomas de control hostiles (OPA, Oferta Pública de Adquisición de Valores): compras que hacen unas empresas sobre otras para controlar los combios de dirección. Las tiene que aprobar el Gobierno con el asesoramiento de la CNMV.
+- Estructura financiera y mercados financieros: ley de oferta/demanda
+- Mercado laboral de consejeros y directivos: que los directivos puedan ascender y pasar de unas empresas a otras los animan a competir y obtener buena reputación.
+Todo esto es teoría y luego hay intereses políticos.
+
+*** 2.4 La dirección. Funciones, niveles
+
+**** Niveles de dirección:
+- alta dirección
+Fijan los grandes objetivos.
+
+Comité Ejecutivo (Presidente Ejecutivo/Consejero Delegado/CEO)
+
+- dirección media
+Enlace jerárquico para la transmisión de decisiones de la alta dirección.
+
+Directores de Departamentos (e.g. Marketing)
+
+- dirección de primera línea
+
+Seguimiento diario, decisiones rutinarias.
+
+Jefe de equipo, jefe de planta, capataz.
+
+- La base de la empresa son los trabajadores lol
+
+
+** ------------------------------------------------------------------------ hasta aquí para el examen
+Tema 2 = Tema 3 del "libro"
+
+No entra equipos de alta dirección
+
 ** 3. Entorno de la empresa
+
+*** Definición de entorno
+
+Análisis
+- externo (del entorno): amenazas y oportunidades
+  - los límites del entorno dependen de la empresa: e.g. los proveedores pueden ser o no del entorno según lo cercanamente que trabajen de la empresa (en automovilísticas puede que se consideren internos)
+- interno: debilidades y fortalezas
+
+En conjunto: DAFO. Nosotros nos centramos en el análisis externo.
+
+Definición: Conjunto de factores que, siendo *externos a la empresa*, tienen o pueden tener incidencia en sus actuaciones y/o sobre sus resultados.
+
+1. La empresa no controla los factores del entorno, pero pueden tratar de influirlo para moldearlo a su favor (corrupción?????)
+2. Formado por todos los factores que pueden incidir a lo largo del tiempo en sus actuaciones y resultados =: *factores estratégicos*
+
+Aclaraciones:
+- entorno relevante: la influencia del entorno puede ser diferente según el momento y la organización. Llamamos *factores estratégicos* a los que tienen mayor influencia.
+- el análisis del entorno es importante para adaptarse.
+
+
+*** Niveles del entorno
+
+- Global
+- Internacional
+- Doméstico (país)
+- Regional
+- Local
+
+
+*** Características del entorno
+
+Visto como fuente de recursos:
+- estable-aleatorio [UNIFORME]: no hay competencia, los recursos están dispersos [e.g. tienda de barrio sola]
+- plácido-integrado: no hay competencia, los recursos están agrupados
+- inestable-reactivo: hay competencia, los recursos están agrupados
+- turbulento: hay competencia variable, el acceso a los recursos (agrupados) es variable
+
+Visto como fuerte de incertidumbre, de más incierto a más predecible:
+- dinámico -> estable
+- complejo -> sencillo
+- diverso -> integrado
+- hostil (mucha competencia) -> munificente (menor competencia, más recursos)
+
+Cada una de estas categorías se comporta como un espectro.
+
+*** Entorno estratégico
+
+Entorno estratégico:
+- Entorno específico o competitivo:
+  - competidores
+  - proveedores
+  - clientes
+- Entorno general: resto de factores estratégicos que afectan a todas las empresas
+Entorno irrelevante
+
+**** Dimensiones del entorno general
+
+Análisis PEST(EL): político, económico, sociocultural, tecnológico, ecológico y legal
+
+Consideraciones: es sencillo pero subjetivo/cualitativo. Su finalidad no es describir la situación económica/política de un pa´is sino conocer las amenazas y oportunidades.
+
+A veces se incluye la dimensión legal en la política
+
+Fases:
+- listar variables o factores clave agrupados en las dimensiones
+- valorar el impacto que tienen en la actuación de la empresa
+
+Pasos:
+1. delimitación de los factores estratégicos del entorno
+2. descripción de ...
+3. 
+
+En lugar de clasificar en amenazas - oportunidades se pueden subdividir las categorías en más valores (desde muy negativo hasta muy positivo).
+
+***** política
+
+- estabilidad
+- intervencionismo
+- comercio exterior
+- políticas fiscal y monetaria
+- políticas de bienestar social
+
+***** económico
+
+- inflación/deflación: IPC (índice de precios al consumo)
+- crecimiento: tasa de variación del PIB
+- desempleo
+- tipos de interés
+- tipo de cambio
+- renta disponible
+
+***** sociocultural
+
+- estructura de la población
+- tradiciones/cultura
+- nivel educativo
+- creencias, valores, religión(?)
+- igualdad, desigualdad
+- rol de la mujer en la economía
+
+***** tecnológico
+
+- infraestructura tecnológica y científica
+- tejido industrial y de servicios
+- protección del conocimiento
+- nivel de desarrollo de tic/redes
+- gasto en I+D de empresas
+- inversión pública en I+D
+- patentes solicitadas
+
+***** ecológico
+
+- legislación medioambiental (L o P en PEST)
+- política medioambiental
+- reciclaje y residuos
+- consumo energético, uso de renovables
+- eficiencia energética
+- cambio climático
+
+***** legal
+
+- legislación laboral
+- seguridad y salud laboral
+- restricciones a fusiones/adquisiciones
+- restricciones a la libre competencia
+
+
+*** Entorno específico (competitivo)
+
+Comprende los factores estratégicos que dependen del sector o industria donde compite la empresa.
+
+Son factores muy relevantes para los objetivos de la organización.
+
+**** Modelo de las 5 fuerzas (Porter, 2009) aka de rivalidad ampliada
+
+Metodología sistemática para determinar como afecta el entorno competitivo a una empresa.
+
+Según cómo operen 5 fuerzas competitivas se halla un *grado de atractivo* para la industria. Es una forma de estimar la rentabilidad futura de un sector.
+
+***** Competidores actuales
+
+Grado de rivalidad entre los competidores existentes en el sector. A más rivalidad, menos probabilidad de obtención de *rentas superiores* y menor grado de atractivo en el sector.
+
+- Num de competidores y equilibrio entre competidores
+  - industrias concentradas => hay pocas empresas y con mucho poder (e.g. farmacéuticas, neumáticos, telecos) / industrias fragmentadas => hay muchas empresas similares (e.g. hostelería, pequeño comercio)
+    - la mayor concentración implica menor competencia ya que se tiende al oligopolio (acuerdos de precios, etc.)
+  - equilibrio entre competidores: hay alguna empresa que tenga la mayor parte del poder frente al resto?
+- Ritmo de crecimiento del sector industrial
+  - menor ritmo de crecimiento => mayor competencia / mayor crecimiento => menor competencia
+  - cada producto pasa por 4 fases (cliclo de vida): introducción, crecimiento, madurez, declive
+    - A partir de la madurez hay menos oportunidad de aumentar ventas => mayor competencia
+    Ejemplo:
+    - Introducción: gafas de realidad virtual, coches autónomos
+    - Crecimiento: pulseras de fitness
+    - Madurez: coches, smartphones
+    - Declive: ordenadores de escritorio, dvd
+- Barreras de movilidad
+  - Obstáculos para moverse de un segmento a otro dentro de la misma industria: contratos blindados, falta de acceso a proveedores/canales de distribución
+  - Si hay muchas barreras habrá menos competencia
+  Ejemplo: banca particular / a empresas / privada (altas fortunas). Hay grandes barreras de movilidad
+  Ejemplo: industria de automoción (coches vs camiones). Hay una gran inversión para pasar de turismos a camiones y grandes vehículos
+- Barreras de salida
+  - Obstáculos para que una empresa abandone un sector (más barreras incrementan la competencia)
+    - Activos especializados (cosas muy específicas cuyo precio de venta es muy bajo, difíciles de amortizar)
+    - Costes fijos de salida (costes de los despidos)
+    - Interrelaciones estratégicas (puede que en una empresa diversificada se mantenga una actividad deficitaria por los intereses del grupo, para aumentar la competencia, etc.)
+    - Barreras emocionales (en empresas familiares, e.g. almazaras)
+    - Restricciones gubernamentales y sociales (& boicots)
+- Estrutura de costes de las empresas
+  - = La proporción que tienen los costes fijos sobre el total de costes
+  - (los costes variables dependen del volumen de producción)
+  Margen unitario = p - Cv donde p es el precio de venta por unidad de producción y Cv el coste por unidad de producción
+  Margen bruto = Q * (p - Cv) donde Q es la cantidad producida
+  Beneficio = Margen_bruto - Costes_fijos
+  - Si los costes fijos son altos es más difícil competir, luego disminuye la intensidad de la competencia
+- Grado de diferenciación de los productos/servicios
+  - Una alta diferenciación de productos disminuyen la intensidad de la competencia (gracias a la mayor fidelidad de los clientes)
+- Costes de cambio
+  - El coste que tiene que asumir un cliente para cambiar de proveedor/empresa (a mayor coste de cambio, menor competencia)
+- Capacidad productiva instalada
+  - Si la capacidad productiva es muy alta, hay que producir y vender altos volúmenes del producto, lo que aumenta la intensidad de competencia.
+- Diversidad de competidores
+  - Si los competidores son muy diferentes en cuanto a estrategias, personalidad, relaciones, objetivos, etc. => aumenta la intensidad
+- Intereses estratégicos
+  - Si los intereses con muy similares, aumenta la intensidad
+
+***** Competidores potenciales
+
+Depende de dos factores:
+- barreras de entrada que existen en dicho sector
+  - economías de escala: reducción en costes que se consigue cuando se aumenta el volumen de producción. Los competidores, o entran a la misma escala que los ya existentes o no son capaces de competir, luego una alta escala es un gran obstáculo
+    Nota: el coste unitario se reduce conforme se aumenta el volumen producido hasta un óptimo, pero vuelve a aumentar a partir de ahí (deseconomía de escala) a causa de mayores costes de gestión, necesidad de contratar más directivos, etc.
+  - economías de alcance: "compartir activos"
+    - sinergia: utilizar el mismo recurso productivo en distintas actividades (e.g. trabajadores, maquinaria, etc.)
+  - diferenciación de producto: si todos los existentes tienen diferenciados sus productos, el que quiera entrar debe ofrecer algo diferente => mayor inversión en I+D => menos amenaza de nuevos competidores
+  - necesidades de capital: a mayor capital necesario, menor amenaza
+  - costes de cambio: si los clientes están fidelizados, el que entre en el sector tiene que ofrecer a los clientes algo que supere esos costes
+  - acceso a canales de distribución: si hay acuerdos entre distribuidores y empresas es más difícil que alguien entre a competir
+  - desventajas en costes
+    - patentes, propiedad intelectual
+    - competidores existentes tienen mejores localizaciones
+  - factores gubernamentales
+
+- reacción esperada (represalias) de los competidores existentes ante los nuevos. Estas serán mayores a medida de que las empresas tengan recursos para defenderse (a mayor fragmentación, menos recursos para amenazar a los nuevos)
+
+***** Productos sustitutivos
+
+Basándose en distinta tecnología o materias cubre la misma necesidad del cliente.
+
+Ejemplos: whatsapp vs sms, azúcar vs sacarina.
+
+Puede que estén en distintos sectores.
+
+Cuantos más sustitutivos existan menor será el atractivo del sector.
+
+La amenaza depende de
+- el grado de sustitución
+- los precios relativos
+- la obsolescencia que los productos sustitutos suponen a los existentes
+- costes de cambio por consumir productos alternativos
+
+***** Poder de negociación de proveedores
+
+Si tienen mayor poder de negociación, podrán fijar los precios de venta, volúmenes, etc.
+
+Depende de:
+- num proveedores y concentración
+- diferenciación de los productos que ofrecen
+- existencia de sustitutis
+- importancia de la empresa al proveedor
+- amenaza de integración vertical hacia adelante por parte del proveedor (asumir las funciones de la propia empresa)
+  Ejemplo: Apple está integrada verticalmente hacia adelante porque tiene tiendas propias donde distribuye y vende.
+  Ejemplo: Inditex está integrada hacia atrás porque fabrica sus propios tejidos.
+- Nivel y calidad de información
+
+***** Clientes
+
 ** 4. Dirección estratégica
 ** 5. Dirección financiera

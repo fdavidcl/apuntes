@@ -8,7 +8,7 @@ Lenguajes: C, C++, Java, Fortran
 
 * Tareas
 
-** TODO Elegir problema para prácticas 3 y 6
+** DONE Elegir problema para prácticas 3 y 6
 
 ** DONE Paralelizar programa cpi-seq para MPI
 
@@ -18,11 +18,19 @@ Lenguajes: C, C++, Java, Fortran
 - 2 transparencias, no más
 - -> día 7/3
 
-** TODO GRUPO: Buscar dos benchmark...
+** DONE GRUPO: Buscar dos benchmark...
 para un sistema HPC, explicar en qué consiste el benchmark y su salida.
 -> martes 21
 Buscar dos bechmark para un sistema HPC, explicar
 en qué consiste el bechmark y su salida.
+
+** TODO GRUPO: Problema - ordenación de vectores mediante mergesort
+
+Incluir los códigos en la presentación y concretar qué patrones, estructuras de programa y de datos se están usando.
+
+Mergesort es ejemplo de 'shared data'
+
+=> después de semana santa
 
 ** Instrucciones para trabajos -- grupo 3
 
@@ -32,7 +40,6 @@ en qué consiste el bechmark y su salida.
 1 persona la cuenta
 
 Las tareas rotan en cada trabajo
-
 * Teoría
 ** 1. Arquitecturas MIMD
 
@@ -238,6 +245,158 @@ Estructuras /read-write/:
 
 **** Evaluación
 
+
+*** Patrones de algoritmos
+
+Conflictos:
+- eficiencia vs portabilidad
+- eficiencia vs simplicidad
+
+**** Plataforma de ejecución
+
+Idealmente: no tener en cuenta la plataforma => pérdida de eficiencia
+
+4 puntos:
+- ¿cuántos procesadores efectivos?
+- ¿cómo repartir el trabajo y con qué coste?
+- proteger la flexibilidad
+- entornos de programación
+
+**** Principio de organización
+
+3 estructuras:
+- organización por tareas
+- descomposición de datos
+- flujo de datos
+
+Posibles situaciones:
+- sólo existe un grupo de tareas activas en cada momento
+- manejo de grandes volúmenes de datos (evitar los accesos secuenciales)
+- grupos de tareas bien definidas que interactúan entre ellas pasando resultados de un conjunto a otro
+
+**** Paralelismo de tareas
+
+**** 
+
+*En CUDA no hay contadores de programa distintos para cada hebra*. Por esto, las hebras deben hacer el mismo trabajo (incluso intentar que no haya if-then-elses puesto que las hebras que no ejecuten la parte =then= se pararán, no pudiendo ejecutar el =else= a la vez).
+
+***** Tareas independientes
+
+Ejemplo: conjunto de Mandelbrot
+
+***** Tareas definidas recursivamente
+
+=> Divide y vencerás
+
+- Las tareas no son exactamente iguales => balanceo de carga
+
+***** Coordinación basada en eventos
+
+*** Estructuras disponibles
+**** Estructuras de programas
+
+- SPMD (GPUs)
+- Master + workers
+- Paralelismo a nivel de bucle (openMP)
+- Fork...Join (paralelización dinámica estilo servidor web)
+
+
+***** SPMD
+
+Pasos:
+- Inicializar
+- Obtener identificación única
+- Repartir datos cuando proceda
+- Ejecutar el mismo programa
+- Recopilar resultados si procede
+- Finalizar
+
+***** Maestro-trabajador
+
+- Dificultad: el balanceo de carga
+- Algoritmo robusto: se puede recuperar si un trabajador se cae
+- La gestión del maestro es complicada en general
+
+El maestro puede ser también trabajador.
+
+La cola de tareas puede ser un cuello de botella. Para solucionarlo se puede construir un árbol de maestros.
+
+Tolerancia a fallos: mantener dos colas, una de pendientes (enviadas) y otra de terminadas.
+
+***** Paralelismo a nivel de bucle
+
+OpenMP no puede tener ganancias superlineales porque necesariamente hay una parte secuencial y no hay uso de escalabilidad débil.
+
+Pasos:
+- Identificar bottlenecks
+- Eliminar dependencias de las iteraciones entre sí
+- Paralelizar bucles
+- Optimizar planificación del bucle con las unidades disponibles
+
+
+***** Fork ... join
+
+Ejemplo: mergesort con mapeo directo o indirecto
+
+
+**** Estructuras de datos
+
+- Datos compartidos
+- Colas compartidas (colas abstractas thread safe)
+- Arrays distribuidos (arrays particionados)
+
+Necesitamos:
+- escalabilidad
+- claridad de la abstracción
+- eficiencia
+- mantenimiento
+- afinidad al entorno de programación
+- equivalencia (si es posible) a la versión secuencial
+
+
+***** Datos compartidos
+
+- La estructura de datos la modifica al menos una tarea
+- El resto leen
+- La "propietaria" debe controlar el acceso a la estructura, que ha de minimizarse
+
+Se deben controlar situaciones de carrera <= el resultado debe ser correcto independientemente de la ordenación de las tareas
+Puede que el número de tareas simultáneas leyendo la estructura esté limitado (e.g. en bases de datos)
+
+Pasos:
+- Usar como último recurso => asegurarse de que es necesario
+- Definir un tipo de dato con operaciones básicas
+- Decidir o implementar un protocolo de acceso concurrente a la estructura. Ejemplos:
+  - One-at-a-time (cerrojos)
+  - Tareas que no interfieran
+  - Organizar tareas escritoras y otras lectoras
+  - Replicar partes de la estructura
+
+
+***** Array (tensor) distribuido
+
+- Necesita balanceo de carga
+- Manejo efectivo de memoria
+
+**** Estructura de programa según patrón y entorno de programación [diapositivas]
+
+Paralelizar bucles en CUDA no siempre tiene sentido porque necesitamos un número de iteraciones muy alto para no desaprovechar cores, pero cuando tenemos muchas iteraciones las estructuras de datos son muy grandes y la copia de datos a la memoria de la GPU cuesta!
+
+*** Algoritmos más comunes
+
+**** Reducción
+
+Las reducciones se realizan sobre un monoide.
+
+Los accesos a memoria shared se intentan realizar a líneas de memoria lejanas de forma que no vayan todas las peticiones al mismo sitio en la memoria y se puedan realizar en paralelo.
+
+**** Scan
+
+
+
+**** Convolución (discreta)
+
+
 ** 3. Redes de Interconexión
 
 * Prácticas
@@ -250,5 +409,35 @@ Estructuras /read-write/:
 - No vamos a evaluar las "otras posibles medidas"
 - Ejecutar en atcgrid con =/usr/lib64/openmpi/bin/mpiexec=
 - Medir tiempos con =MPI_Wtime()= en MPI o =omp_get_wtime= en OpenMP o =clock_gettime(CLOCK_REALTIME, &cgt1)= de C
+*** MPI
+
+En MPI se pueden numerar los procesos de forma bidimensional.
+
 *** CUDA
 - CUDA está pensado únicamente para floats, no enteros
+- Las hebras se organizan en bloques, y dependiendo del bloque pueden tener identificaciones uni, bi, y tri-dimensionales.
+** 4 y 5. Seminario de CUDA
+
+- leer nombres de ficheros desde la línea de comandos
+- abrir ficheros
+- leer input0->a, input1->b y output->c
+- sumar a+b->d
+- comparar c, d (usar una tolerancia?)
+- imprimir la suma (en la cpu, para que el compilador no se lo cargue!)
+
+
+cuda: /usr/local/cuda-5.0/bin/nvcc -m64 -I/usr/local/cuda-5.0/include
+
+Las hebras que están en el mismo bloque comparten memoria y se pueden sincronizar, las hebras de bloques distintos no.
+
+identificación de hebras (1 dimensión):
+- =blockidx.x= nivel de bloque
+- =blockDim.x= número de hebras en bloque
+- =threadidx.x= nivel de hebra en bloque
+- =blockidx.x * blockDim.x + threadidx.x= nivel de hebra global
+
+Cada bloque va siempre al mismo SM aunque haya más hebras en el bloque que cores en el SM.
+
+Geforce GT 750M: "The GK107 Kepler core offers two shader blocks, called SMX, each with 192 shaders for a total of 384 shader cores that are clocked at the same speed as the processor core." [[http://www.notebookcheck.net/NVIDIA-GeForce-GT-750M.90245.0.html][src]]
+
+Las hebras se agrupan en /warps/ de 32 hebras. Interesa que cuando sobren hebras sean en múltiplos de 32 para no desaprovechar trabajo de hebras. Además, el bloque mínimo debería ser de 32 hebras. Probar múltiples tamaños.
