@@ -1,7 +1,7 @@
 #+TITLE: Arquitectura y Programación de Altas Prestaciones
 
 * Datos de la asignatura
-- Profesora: Maribel García Arenas ([[mgarenas@ugr.es]])
+- Profesora: Maribel García Arenas (mgarenas@ugr.es)
   Despacho 32 (2ª planta)
 
 Lenguajes: C, C++, Java, Fortran
@@ -41,6 +41,7 @@ Mergesort es ejemplo de 'shared data'
 
 Las tareas rotan en cada trabajo
 * Teoría
+
 ** 1. Arquitecturas MIMD
 
 *** HPC
@@ -398,6 +399,350 @@ Los accesos a memoria shared se intentan realizar a líneas de memoria lejanas d
 
 
 ** 3. Redes de Interconexión
+*** Bibliografía
+
+Arquitectura de computadores (Cap 7, 8 y 9) ¡Estudiar del libro! Las transparencias no son suficientes.
+*** Tipos de redes de interconexión, estructura general del sistema
+**** Comunicación en multicomputadores (send/receive)
+**** Comunicación en multiprocesadores (read/write)
+
+La circuitería correspondiente al sistema de coherencia forma parte del sistema de comunicación.
+**** Interfaz de red
+
+- DMA (copia de la memoria principal a la memoria local del interfaz)
+  - lo hace pidiendo control del bus de memoria, o utilizándolo cuando no lo está usando la CPU o mediante un protocolo
+- Memoria
+- Estado
+- Asistente comunicación
+- Controlador de enlace + Cola envío
+- Controlador de enlace + Cola recepción
+  - El controlador se encarga de que en el destino haya espacio para almacenar la próxima unidad de información que llegue
+- Circuiteria específica según fabricante
+***** Funciones
+- Almacenamiento temporal de paquetes de E/S
+- Formateo del paquete
+- Copia y almacenamiento de datos
+- Control de flujo
+- Dirección física, encaminamiento y reconfiguración de la red
+  - Hay varias formas de encaminamiento:
+    - En fuente: el camino está decidido al completo desde el principio (se encapsula en el mensaje)
+    - Decisión etapa a etapa: en cada switch/router, según el destino, se calcula por qué salida debe ir el paquete
+**** Switch (conmutador)
+
+Se caracteriza por el número de entradas y el de salidas que tiene.
+
+El encaminador debe encaminar y arbitrar (resolver qué paquete sale antes, de dos paquetes que se han encaminado a la misma salida; en algunos casos se desestima uno de los paquetes (en TCP)).
+**** Enlace
+Generalmente son unidireccionales. Si son bidireccionales, pueden ser:
+- full-duplex (hay hilos dedicados para cada dirección)
+- half-duplex (todos los hilos se dedican a un solo sentido, y se cambia el sentido cuando conviene)
+
+Se clasifican respecto a su anchura y longitud:
+- Anchura
+  - anchos (se transmiten datos y control a la vez)
+  - estrechos (se reparte en el tiempo los datos y el control)
+- Longitud
+  - cortos (1 símbolo/unidad de transmisión/"phit")
+  - largos (varios símbolos propagándose simultáneamente)
+*** Análisis de prestaciones
+**** Extremo a extremo
+Entre cualquier nodo de origen y cualquier nodo de destino
+
+Hay muchas latencias
+**** Globales
+Sólo se puede medir de forma experimental.
+
+Cada nodo genera un patrón de comunicación.
+
+Permiten calcular
+- Latencia media
+- Productividad global/aceptada
+- Productividad solicitada/aplicada
+- Productividad máxima
+
+En el momento de saturación, muchos interfaces de red acaban vaciando los buffers y descartando todos los paquetes por enviar.
+
+**** Adicionales
+
+*** Diseño de redes: niveles de servicio**** Cómo diseñar redes
+
+***** Topología
+
+***** Algoritmo de encaminamiento (dónde)
+
+***** Estrategia de conmutación (cómo)
+
+***** Mecanismos de control de flujo (cuándo)
+
+**** Unidad mínima de información
+
+***** Física: phit
+
+***** Enlace (nivel conmutacion y encaminamiento): flit
+
+***** Transporte (nivel mensaje, interfaz de red): paquetes
+
+***** Aplicación: Mensaje
+
+**** Topologías y clasificación
+
+***** Clasificaciones
+
+****** Estáticas
+
+De dimensión $n$ y tamaño $K_{n-1}\times\dots K_1\times K_0$.
+
+******* Estrictas
+
+Cada nodo tiene un enlace al menos en cada dimensión
+
+******** Ortogonales
+
+Cada nodo está conectado a los más próximos (avanzando y retrocediendo una unidad) en cada dimensión.
+
+Se dice que el sentido de un enlace de N a M es positivo si N <lex M, y negativo si M <lex M.
+
+La distancia mínima es la de Manhattan.
+
+e.g. mallas, toros
+
+e.g. el toro de dimensión 2 y 2 x 4 nodos es la misma red que un 3-cubo o una malla de dimensión 3 y base 2.
+
+****** Dinámicas
+dinámicas: cada nodo de conmutación no tiene por qué estar ocupado por un nodo de computación.
+
+******* Compartido
+
+Bus de comunicación (1 solo canal!)
+
+******* No compartido
+
+******** Barras cruzadas
+
+Barras cruzadas: cada entrada está conectada con cada salida (es fully connected), con caminos independientes (cada entrada puede tener comunicación simultánea con cada salida, a diferencia de la multietapa).
+
+Se usan mucho si el número de entradas es pequeño.
+
+Se forman por unión de conmutadores y enlaces.
+
+******** Multietapa
+
+Intentan proporcionar la misma funcionalidad que las cruzadas pero ahorrando componentes.
+
+********* Bloqueantes
+
+No necesariamente son posibles comunicaciones simultáneas entre dos cualesquiera pares entrada-salida.
+
+********* No bloqueantes
+
+Son posibles comunicaciones simultáneas entre dos cualesquiera pares entrada-salida.
+
+Se consiguen duplicando enlaces y conmutadores.
+
+********* Reconfigurables
+
+No bloqueante, tiene más de un camino entre cada entrada y cada salida.
+Es capaz de re-enrutar una comunicación conflictiva a través de otros enlaces y conmutadores.
+
+********* Tipos
+
+********** Omega
+
+********** Mariposa
+
+********** Cubo
+
+Diapo 51: están mal colocados los números de M_1^2 y M_2^2 (?)
+
+*** Técnicas de conmutación
+
+**** Introducción
+
+Cómo vamos a compararlas:
+- cuantitativamente: respecto a la latencia de transporte de un paquete de un tamaño concreto
+  - Para el ejemplo, consideraremos 1 flit = 1 phit = w bits
+  - La cabecera tendrá 1 flit
+  - Datos de L = 3w bits
+  - D = número de parejas conmutador enlace de la fuente al interfaz de red del destino
+    - Aplicaremos D = dist(origen, destino) + 1
+  - Suponemos ausencia de conflictos
+- cualitativamente: respecto al ancho de banda global
+
+***** Ejemplo
+
+$t_w$ será el tiempo necesario para transportar $w$ bits en una etapa conmutador-enlace. $t_r$ será el tiempo de enrutamiento.
+
+**** Almacenamiento y Reenvío
+
+Características:
+- el conmutador espera a tener el paquete completo para aplicar enrutamiento
+- un paquete ocupa no más de un canal (enlace) de la red => afecta poco a las prestaciones globales de la red, pero puede afectar a las prestaciones locales.
+- los buffers obviamente tienen que tener capacidad mínima de un paquete
+- unidad de transferencia = paquete
+
+Asumiendo que el conmutador tiene almacenamiento único (no distinguimos almacenamiento a la entrada y a la salida):
+$$t_{AR}=D\left(t_r+ \left(\mathrm{ceil}\left(\frac L W \right) + 1\right)\times t_w\right)$$
+
+Ejemplo:
+Con las constantes tomadas para el ejemplo, $t_{AR} = 3(t_r + 4t_w)$
+
+**** Vermiforme
+
+Características:
+- En cuanto llega la cabecera se aplica enrutamiento (una sola vez)
+- La transferencia se realiza de forma segmentada
+- La unidad de transferencia es el mensaje
+- Los bufferes deben tener capacidad mínima de 1 flit
+- El ancho de banda global se ve afectado! Más cuanto más largos sean los paquetes
+
+$$t_V=t_{\mathrm{cabecera}}+t_{\mathrm{resto}}=D\times (t_r+t_w) + t_w\times\frac L W$$
+
+No es interesante aprenderse esta fórmula, asume que los conmutadores y demás funcionan como en el ejemplo.
+
+**** Virtual Cut-Through
+
+Características:
+- Funciona como almacenamiento y reenvío pero no espera al paquete entero
+- Enruta en cuanto llega la cabecera
+- La transferencia se realiza de forma segmentada, PERO se pueden reagrupar todos los mensajes de un paquete si un conmutador tiene el enlace de salida ocupado (así no se ve tan afectado el ancho de banda como en vermiforme, pero sí un poco más que en AR)
+
+**** Conmutación de circuitos
+
+Características:
+- Se envía una sonda que reserva el camino. El destino devuelve una confirmación
+- La transferencia usa todo el ancho de banda (se forma un cauce entre origen y destino)
+- La unidad de transferencia es el mensaje
+- La capacidad mínima
+
+**** Canales virtuales
+
+Permite que varios canales compartan el mismo enlace a nivel de flit (e.g. en el tick de bajada se pasa un mensaje de un paquete y en el de subida uno de otro)
+
+**** Problemas
+
+**Nota**: Los tiempos de enrutamiento se toman por cada flit, mientras que tiempos de transferencia y sobrecarga se toman por phit. Es muy importante cuando 1 flit > 1 phit
+
+***** Propuesto 3
+Imaginemos un multiprocesador de memoria distribuida con red de interconexión toro bidimensional,
+canales bidireccionales y 1024 nodos terminales (supongamos igual base en las dos dimensiones). Los
+conmutadores de la red tienen buffers asociados a las entradas y a las salidas. Esto hace que en las
+técnicas de conmutación que aprovechan para la transferencia la segmentación en etapas del camino
+por parte de los buffers, se tenga que tener en cuenta, al obtener la latencia de transporte, que hay
+etapas que suponen atravesar un conmutador y etapas que implican atravesar el canal entre
+conmutadores. Los tiempos que determinan el retardo de comunicación en el sistema de comunicación
+son: t sobrecarga = 1$\mu$s (tiempo de sobrecarga en el fuente + tiempo de sobrecarga en el destino); t_r = 2 ns
+(tiempo requerido por el algoritmo de encaminamiento en el conmutador); t w = 6 ns (tiempo de
+transferencia de 1 phit entre conmutadores); y t s = 5 ns (tiempo de transferencia de 1phit entre un
+buffer de entrada y un buffer de salida de un conmutador)
+
+Supongamos un paquete de 100 phits + 2 phits de cabecera.
+
+Calcular la latencia (téngase en cuenta también la sobrecarga) que supone la transferencia de este
+paquete desde el nodo 527 al nodo 56 por el camino más corto:
+
+a. Si se utiliza conmutación vermiforme (consideramos que un flit consta de 2 phits).
+b. Si se utiliza conmutación almacenamiento y reenvío.
+c. Si se utiliza conmutación de circuitos con camino segmentado (consideramos que un flit consta de 2 phits, y que la sonda y el reconocimiento son un flit).
+
+nodo 527 == (16, 15)
+nodo 56 == (1, 24)
+
+dist(527, 56) = 24 => D = 25
+
+b.
+$$t_r=2\mathrm{ns}/\mathrm{flit} \times 1 \mathrm{flit}/\mathrm{cabecera}=2\mathrm{ns}$ (si la cabecera ocupa más de 1 flit, se tarda más en enrutarla? no tiene sentido eso)
+
+$$t_{\mathrm{transf-AR}}=102\times t_w + 25 \times\left(t_r + 102 (t_s + t_w)\right)=
+102\times 6 + 25(2 + 102(5 + 6))\mathrm{ns}=28712\mathrm{ns}=28.712\mu s$$
+$$t = t_{sobrecarga} + t_{\mathrm{transf-AR}} = 1\mu s + 28.712 \mu s= 29.712 \mu s$$
+
+a.
+$$t_{\mathrm{transf-V}}=t_{cab}+t_{datos}=2\mathrm{phits}\times t_w + 25(t_r + 2(t_s+t_w))+
+100\max\{t_s,t_w\}$$
+$$t=t_s+t_{\mathrm{transf-V}}=1.212\mu s$$
+
+c.
+$$t_{\mathrm{transf-CC}}=t_{\mathrm{cab}}+t_{\mathrm{sonda}}+t_{\mathrm{datos}}=
+2t_w + 25(t_r+2(t_w+t_s))+2t_w+25\times 2(t_w+t_s)+(2t_w+25(2(t_w+t_s))+49\times 2t_w)$$
+$$t = t_s + t_{\mathrm{transf-CC}}=3.324\mu s$$
+
+
+*** Control de flujo
+
+**** Físico
+
+***** Síncrono
+- Se tienen relojes sincronizados
+- Se envía una señal de sincronización (reloj)
+
+Para cada bajada del reloj se manda un phit de datos.
+
+***** Asíncrono
+Se comprueba la recepción cada pocos bits
+
+**** Conmutación
+
+- Debe arbitrar los conflictos
+- Debe asegurar el espacio en el destino
+
+Líneas cortas (probablemente flit = phit):
+- transferencia asíncrona
+- transferencia síncrona
+
+Líneas largas (probablemente flit > phit):
+- transferencia síncrona: el emisor tiene un contador de crédito, el reciptor va enviando dicho crédito.
+
+
+Los fabricantes suelen intentar reducir las líneas de control. Por ello, a la línea de crédito se le suelen aportar más funcionalidad (e.g. STOP and GO).
+
+*** Encaminamiento
+
+Tareas:
+- determinar qué caminos se pueden seguir para ir de fuente a destino
+- seleccionar el camino concreto a seguir de entre los candidatos
+
+Diseño:
+- Funcionalidad
+- Decisión de encaminamiento
+  - Centralizado
+  - Fuente
+  - Distribuido
+  - Multifase
+- Implementación
+  - Con tabla de consulta
+  - Sin tabla de consulta
+- Selección del camino
+  - Deterministas: seleccionan siempre el mismo camino
+  - Inconscientes: seleccionan un camino, teniendo en cuenta el estado local, sin tener en cuenta el tráfico de la red global
+  - adaptativos: tienen en cuenta el estado global de la red
+- Canales candidatos y caminos alternativos (función de
+encaminamiento)
+
+Grafo de dependencias: establece un vértice por cada canal, y hay una arista entre dos vértices si el algoritmo de encaminamiento permite, viniendo de un canal, salir por el otro.
+
+**** Algoritmos de eliminación de interbloqueos
+
+***** Encaminamiento ordenado por dimensión
+
+Es determinista, impide que los paquetes anden en círculos por la red.
+Eliminan todos los interbloqueos en mallas e hipercubos. En toros necesitan además canales virtuales.
+
+***** Algoritmo del intervalo
+Es distribuido con tabla y determinista. Es ordenado por dimensión.
+
+El algoritmo del intervalo numera en vertical-first pa que al enrutar horizontal-first lleguemos a un intervalo de nodos.
+
+**** Enrutamiento en redes tipo mariposa unidireccionales
+
+Redes $a^n\times b^m$
+
+**** Encaminamiento Up-Down
+Ordenado por dimensión. Se pueden hacer cambios de entre un conjunto. No genera interbloqueos si la topología no los tiene.
+
+Lo que se hace es: se coge un canal del conjunto Up siempre que exista un canal que te acerque (si lo buscamos mínimo) al destino y esté disponible. Se coge únicamente del conjunto Up hasta que deja de haber y luego exclusivamente de Down.
+
+Se utilizan mucho para comunicaciones broadcast.
+
 
 * Prácticas
 
@@ -441,3 +786,108 @@ Cada bloque va siempre al mismo SM aunque haya más hebras en el bloque que core
 Geforce GT 750M: "The GK107 Kepler core offers two shader blocks, called SMX, each with 192 shaders for a total of 384 shader cores that are clocked at the same speed as the processor core." [[http://www.notebookcheck.net/NVIDIA-GeForce-GT-750M.90245.0.html][src]]
 
 Las hebras se agrupan en /warps/ de 32 hebras. Interesa que cuando sobren hebras sean en múltiplos de 32 para no desaprovechar trabajo de hebras. Además, el bloque mínimo debería ser de 32 hebras. Probar múltiples tamaños.
+* Trabajos
+** Titan Cray XK7 - Notas de exposición
+#+AUTHOR: David Charte
+#+OPTIONS: toc:nil
+*** Diapositiva 1
+- Titan usa la plataforma de supercomputación XK7 de Cray
+*** Diapositiva 2
+- Híbrido: usa GPUs y CPUs. Es el primer supercomputador híbrido en superar los 10 PFLOPs de rendimiento
+- Es el sucesor de Jaguar y predecesor de Summit, que se estrenará el año que viene
+*** Diapositiva 3
+- 18688 nodos
+- cada nodo: Opteron 6274 de 16 núcleos (32 GB RAM), NVidia Tesla K20X (6 GB RAM)
+- En total casi 300k núcleos y casi 700 TB de RAM
+*** Diapositiva 4
+La interconexión Gemini usa topología toro-3D (la foto es simplificación)
+*** Diapositiva 5
+- permite un direccionamiento global de la memoria (S.O. Cray Linux Environment basado en SUSE Entreprise Server) que se puede utilizar desde lenguajes como Cray Chapel, Unified Parallel C o Co-Array Fortran
+- usa conmutación vermiforme
+*** Diapositiva 6
+- cada 2 pares de chips Opteron se conectan al chip Gemini (SoC) usando enlaces HyperTransport3
+- En las dimensiones X y Z Gemini tiene dos enlaces, en la Y uno. En total 10 links de red.
+- Un chip tiene 48 puertos (8 para NICs, 10 grupos de 4 para red) implementados en un router YARC con enrutamiento adaptativo
+- Ancho de banda conjunto: 168 GB/s por chip Gemini
+*** Diapositiva 7
+- Netlink conecta routers y NICs, se ocupa de los cambios de frecuencia de reloj
+- El L0 es un procesador de control embebido que se conecta al supervisor y permite a la red Cray cargar tablas de enrutamiento, etc.
+*** Diapositiva 8
+- Cada NIC tiene estos módulos
+- Está conectado por un lado al HT3 y por el otro al router (4 puertos cada NIC)
+*** Diapositiva 9
+Componentes a destacar:
+- FMA: generación y almacenamiento de transferencias pequeñas (baja latencia)
+- BTE: permite transferencias asíncronas entre memoria local y remota (hasta 4 GB sin intervención CPU)
+- CQ: mecanismo ligero de notificación de eventos
+- AMO: operaciones atómicas ($\rightarrow$ caché AMO) como Cmp&Exchg; mantiene coherencia con el host pero el host no mantiene coherencia con el NIC
+- SSID: mecanismo para identificar paquetes de la misma transacción y colocarlos en orden en el destino aunque no lleguen desordenados
+*** Diapositiva 10
+- Cada router está organizado en tiles (los 48 puertos), para que la fabricación sea más fácil
+- Cada buffer de almacenamiento se asocia con un puerto de entrada y uno de salida
+*** Diapositiva 11
+- Utiliza códigos correctores de errores de 16 bits para proteger hasta 64 B de datos (+ cabeceras)
+* Ejercicios
+** 7
+
+Se va a diseñar un multiprocesador de memoria físicamente distribuida con 512 nodos conectados
+con una red de interconexión malla tridimensional. Implementar para la red un algoritmo distribuido en
+los conmutadores para encaminamiento uno-a-todos (difusión o broadcast). Considerar que el algoritmo
+(que se ejecuta en el conmutador) utiliza el canal de entrada del paquete para determinar los canales de
+salida por los que reenviar el paquete.
+
+Suponemos la misma base en todas las dimensiones: 512^(1/3) = 8
+
+Un conmutador de esta malla tiene un (?) controlador de enlace para cada dimensión
+    d1 /d2/
+    ||//
+d0 =[]=
+  //||
+
+Observamos que no se debe distribuir el mensaje por el mismo canal por el que llegó! Para evitar duplicaciones se elige un orden de dimensiones: creciente o decreciente.
+
+En este caso, si el mensaje llega por la d0 lo difundimos en todas dimensiones, si llega por d1 no difundimos por d0 y si llega por d2 sólo difundimos por d2.
+
+|---------+-----+-----+-----+-----+-----+-----+---------|
+| I\O     | d0+ | d0- | d1+ | d1- | d2+ | d2- | interno |
+|---------+-----+-----+-----+-----+-----+-----+---------|
+| d0+     | X   |     | X   | X   | X   | X   | X       |
+| d0-     |     | X   | X   | X   | X   | X   | X       |
+| d1+     |     |     | X   |     | X   | X   | X       |
+| d1-     |     |     |     | X   | X   | X   | X       |
+| d2+     |     |     |     |     | X   |     | X       |
+| d2-     |     |     |     |     |     | X   | X       |
+| interno | X   | X   | X   | X   | X   | X   |         |
+|---------+-----+-----+-----+-----+-----+-----+---------|
+
+Grafo de dependencias: se construyen las aristas aplicando el algoritmo de enrutamiento.
+** 12
+Algoritmo intervalo para mallas. La muestra la tabla de encaminamiento del
+conmutador 10 para una malla 4x4 con algoritmo intervalo. Escriba la tabla de
+encaminamiento para el conmutador 5 de la red 4x4 de la figura. Escribir la tabla para los
+conmutadores 4, 13 y 23, en una malla 3x3x3 con algoritmo intervalo que anule la distancia
+respecto al destino comenzando por la dimensión más alta, y siguiendo un orden
+decreciente (D2, D1, D0).
+
+| Canal      | Int (nodo 5) | Int (n 10 dec) | Int (n 5 dec) |
+|------------+--------------+----------------+---------------|
+| d0+        |         8-15 |          11-11 |           6-7 |
+| d0-        |          0-3 |            8-9 |           4-4 |
+| d1+        |          6-7 |          12-15 |          8-15 |
+| d1-        |          4-4 |            0-7 |           0-3 |
+| interno    |          5-5 |          10-10 |           5-5 |
+| numeración |    creciente |    decreciente |   decreciente |
+
+Nótese que al cambiar la ordenación (de creciente a decreciente) simplemente hay que intercambiar las entreadas de los enlaces correspondientes.
+
+Tabla para la malla 3x3x3:
+
+| Canal   |    4 |    13 |    23 |
+|---------+------+-------+-------|
+| d0+     |  5-5 |    14 |    -- |
+| d0-     |  3-3 |    12 | 21-22 |
+| d1+     |  6-8 | 15-17 | 24-26 |
+| d1-     |  0-2 |  9-11 | 18-20 |
+| d2+     | 9-26 | 18-26 |    -- |
+| d2-     |   -- |   0-8 |  0-17 |
+| interno |  4-4 | 13-13 | 23-23 |

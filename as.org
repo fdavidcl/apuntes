@@ -552,7 +552,33 @@ Señales con pérdida = banderas o semáforos binarios
 
 Señales sin pérdida = semáforos con contador
 
-Diapo 63: posibilidad de interbloqueo en las asignaciones a =valor=
+Diapo 73: posibilidad de interbloqueo en las asignaciones a =valor=
+
+** 9. Exclusión mutua
+
+Importante: la espera ocupada también puede agotar el bus del sistema (!) Si tenemos 2 hebras se ocupará el 50% del bus, con 4 hebras (3 esperando) se ocupará el 75%!
+
+Diapo 50: *grave error* si el cerrojo está adquirido y se vuelve a intentar adquirir, se deshabilitan las interrupciones y se queda bloqueado en el bucle =while (cerrado);= para siempre.
+
+Diapo 51: ya funciona, además el =while= usa algo menos del ancho del bus de memoria.
+
+Cerrojo mediante TAS: no cumple espera acotada (así que técnicamente *no funciona*), pero se usa mucho cuando se sabe que las esperas son cortas.
+
+** 10. Paso de mensajes
+
+Los envíos asíncronos son un riesgo de DDOS
+
+** 11. Gestión de recursos: interbloqueo e inanición
+
+** 12. Planificación
+
+Lo razonable es escoger un quantum ligeramente superior al tiempo esperado de una ráfaga de cpu de un proceso (evita ráfagas muy cortas y ahorra tiempo).
+
+Actualmente el quantum suele ser de 1ms a 10ms.
+
+En el núcleo del SO no se puede utilizar el coprocesador matemático: sólo podemos dividir por 2 aka desplazar a la derecha.
+
+Ejercicio: buscar el quantum de mi so habitual
 
 * Prácticas
 
@@ -590,3 +616,7 @@ Diapo 63: posibilidad de interbloqueo en las asignaciones a =valor=
 ** 6. Hebras II
 
 Los microprocesadores modernos vienen con multitud de registros, algunos de los cuales sirven para análisis de rendimiento. Los programas =oprofile= y =perf= permiten aprovecharlos para analizar procesos.
+
+** 11. Lectores y escritores
+
+Ballhausen es la única solución custom justa???

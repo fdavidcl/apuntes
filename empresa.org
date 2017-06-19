@@ -104,7 +104,7 @@ Nueva forma de autónomo: *emprendedor de responsabilidad limitada*, como el emp
 
 Formas societarias (sociedades mercantiles):
 - colectiva: los socios aportan capital y trabajo, y la responsabilidad es ilimitada y solidaria, pero sólo participan del beneficio en proporción de la parte aportada
-
+  
 - comanditaria: como las colectivas, pero hay socios comanditarios que sólo aportan capital y no trabajo, y cuya responsabilidad es limitada a lo que aportan
 
 - limitada (SL): 3000 € de capital mínimo de constitución, la responsabilidad es limitada al capital aportado, se divide en *participaciones sociales* (que no son objeto de compraventa libre) cuyo reparto está muy controlado para que la SL sea estable y no cambie rápidamente de manos
@@ -283,7 +283,7 @@ Monitorizar los resultados, comparar con los objetivos, medir las desviaciones y
 - Justifica el beneficio (incluso el beneficio extraordinario) gracias a la innovación
 
 - El que realiza la invención no tiene por qué ser el empresario
-
+  
 ***** La tecnoestructura de Galbraith
 
 Tecnoestructura: órgano colegiado [compuesto por un conjunto de personas que toman decisiones conjuntamente] que se encarga de dirigir la empresa. Compuesto por profesionales de diversos campos del conocimiento. No necesariamente se corresponde con los propietarios de la empresa.
@@ -427,7 +427,7 @@ Visto como fuerte de incertidumbre, de más incierto a más predecible:
 - complejo -> sencillo
 - diverso -> integrado
 - hostil (mucha competencia) -> munificente (menor competencia, más recursos)
-
+  
 Cada una de estas categorías se comporta como un espectro.
 
 *** Entorno estratégico
@@ -444,7 +444,7 @@ Entorno irrelevante
 
 Análisis PEST(EL): político, económico, sociocultural, tecnológico, ecológico y legal
 
-Consideraciones: es sencillo pero subjetivo/cualitativo. Su finalidad no es describir la situación económica/política de un pa´is sino conocer las amenazas y oportunidades.
+Consideraciones: es sencillo pero subjetivo/cualitativo. Su finalidad no es describir la situación económica/política de un país sino conocer las amenazas y oportunidades.
 
 A veces se incluye la dimensión legal en la política
 
@@ -622,5 +622,372 @@ Depende de:
 
 ***** Clientes
 
+**** Extra: limitaciones y extensiones del modelo de las 5 fuerzas
+
+El modelo de Porter es ampliamente aceptado y es conistente en el tiempo.
+
+Pero es susceptible de ser mejorado o ampliado:
+- la importancia de las fuerzas varía
+- la importancia de los factores influyentes varía
+- los competidores se organizan en "grupos estratégicos"
+
+Limitaciones:
+- excesiva importancia de la estructura de la industria en la explicación del éxito
+- escasa relevancia de las industrias y productos complementarios y las industrias auxiliares
+- carácter estático del modelo
+- difícil adaptación a sectores hipercompetitivos
+
 ** 4. Dirección estratégica
+
+*** Concepto
+
+Dirección de empresas: gestionar la empresa, día a día, para lograr eficacia y eficiencia
+Dirección *estratégica* de la empresa: diseño e implantación de una estrategia para responder al entorno
+
+Motivación:
+- La empresa debe anticiparse al entorno
+- Los entornos son turbulentos, cambian rápido, complejos, impredecibles
+- La estrategia debe derivar de oportunidades, amenazas, fortalezas y debilidades. Buena estrategia => buena posición competitiva
+
+**** Estrategia: etimología
+From Ancient Greek στρατηγία (stratēgía, “office of general, command, generalship”), from στρατηγός (stratēgós, “the leader or commander of an army, a general”), from στρατός (stratós, “army”) + ἄγω (ágō, “I lead, I conduct”).
+
+(CC BY-SA Wiktionary: https://en.wiktionary.org/wiki/strategy)
+
+**** Conceptos de *estrategia*
+
+Johnson et al: La dirección/orientación y el alcance de una organización a largo plazo que permite lograr una ventaja
+Porter: Acción ofensiva o defensiva para establecer una posición competitiva sostenible en una industria. Único objetivo: máximo rendimiento
+Grant: Define cómo desplegará los recursos en el entorno para satisfacer los objetivos a largo plazo, asegura coherencia y cohesión
+Guerras: Respuesta diseñada para adaptarse al entorno o para aumentar su eficacia y eficiencia
+
+***** Ideas básicas
+
+- La estrategia responde al entorno
+- *El objetivo es tener una ventaja sostenible que mejore su posición competitiva*
+- Pretende conseguir los objetivos a largo plazo del empresario y stakeholders
+- Resulta de la toma de decisiones
+- Define los cursos de acción
+
+- El entorno influye en la estrategia y la estrategia en el entorno
+
+**** Componentes de la estrategia
+
+***** Campo de actividad
+
+Conjunto de productos y mercados que componen la actividad económica de la empresa.
+
+La estrategia define el campo de actividad. Suele estar formado (en el caso de empresas diversificadas) por varios negocios aka Unidades Estratégicas de Negocio.
+
+Ejemplos de empresas diversificadas: Virgin, PRISA, Danone
+
+Cada UEN necesita distintas estrategias:
+- se desarrolla en entornos distintos
+- tiene competidores y oportunidades diferentes
+
+Hay dos tipos de diversificación:
+- relacionada: si los negocios tienen relaciones entre si (pueden compartir partes del proceso productivo, proveedores, etc.) e.g. Danone
+- no relacionada: los negocios no comparten ná e.g. Virgin
+
+Criterios para analizar la diversificación: clientes, necesidades, funciones...
+
+***** Capacidades distintivas
+
+Conjunto de recursos y capacidades que periten a la empresa realizar procesos o tareas mejor que sus competidores.
+
+e.g. capacidad de innovación, capacidad de diferenciación
+e.g. una empresa que innove en proceso productivo puede reducir costes y obtener una ventaja competitiva
+
+***** Ventaja competitiva
+
+Mejor posición competitiva respecto a los competidores (en cuanto a costes, diferenciación, ser mejor vista...)
+
+Las bases de la ventaja competitiva: Diferentes característica(s) de la empresa que la sitúan en dicha posición.
+
+*No confundir la situación de ventaja con la base de la ventaja*
+
+Puede ser:
+- en costes
+- diferenciación
+
+***** SINERGIA
+
+From Ancient Greek συνεργία (sunergía, “cooperation”), from σύν (sún, “with, together”) + ἔργον (érgon, “work”). (CC BY-SA Wiktionary)
+
+Conexión entre campo de actividad, capacidades distintivas y ventaja competitiva.
+
+**** Una buena estrategia...
+
+debe perseguir ventajas competitivas, desarrollando y empleando capacidades distintivas, asegurando sinergias.
+
+**** /Misión/ y /visión/
+
+Las empresas muchas veces los confunden.
+
+Misión: ¿para qué existe la empresa?
+- declaración genérica del propósito general de la organización
+- expresión de la identidad de la empresa (=> individualidad)
+- en empresas diversificadas
+  - relacionadas: un hilo conductor
+  - no relacionadas: misión para cada UEN
+
+Visión: ¿cómo quiere ser la empresa en el futuro?
+- declaración de lo que la empresa podría o debería ser
+- proyección de la trayectoria futura, de su estado futuro deseado
+- enunciado de la situación futura ideal
+- debe plantearse teniendo en cuenta a todos los stakeholders
+
+Ninguna de las dos debe confundirse con un eslogan.
+
+
+
+*** Proceso de dirección estratégica
+
+**** Etapas
+
+***** Análisis estratégico
+- Orientación básica de la empresa: determinada por la misión y objetivos de la empresa.
+- Análisis DAFO compuesto por los resultados del análisis interno y el externo
+
+***** Formulación de estrategias
+
+Diseño, evaluación y selección de estrategias
+
+***** Implantación
+
+****** Puesta en práctica
+
+****** Control
+
+**** Análisis DAFO: la matriz DAFO
+
+Recoge las debilidades y fortalezas (internas) y las amenazas y oportunidades.
+
+
+*** Opciones estratégicas básicas
+
+**** Nivel de estrategia corporativa
+
+***** Resumen
+- Es la estrategia global de la empresa (para todas las UENs).
+- Define el campo de actividad.
+- Responde a dónde competir.
+
+Responsable: CEO, director general
+Ejemplo: introducirse en el mercado asiática
+
+***** Crecimiento
+
+****** Direcciones de crecimiento
+
+Matriz de Ansoff:
+| Mercados\Productos | Existentes                  | Nuevos                    |
+|--------------------+-----------------------------+---------------------------|
+| Existentes         | *Penetración en el mercado* | *Desarrollo de productos* |
+| Nuevos             | *Desarrollo de mercados*    | Diversificación           |
+
+Las celdas en negrita se consideran estrategias *de expansión*:
+- Penetración en el mercado: vender más en el mismo mercado
+- Desarrollo de productos: nuevas variedades de productos en el mismo mercado (e.g. pasar de productos de gama media a gama alta)
+- Desarrollo de mercados: introducirse en nuevos mercados con los mismos productos (e.g. internacionalización)
+
+Diversificación: conlleva cambio sustancial del campo de actividad
+La *integración vertical* es una forma de diversificación.
+
+
+****** Métodos de crecimiento
+
+- crecimiento orgánico: inversión en la propia empresa. Se dice que se crea valor económicamente (incrementa su contribución al PIB)
+- crecimiento externo: adquisiciones, fusiones, absorciones (no implica crecimiento económico --a nivel de región/país)
+  - absorción: A compra B, y B desaparece como entidad independiente (pierde su nombre)
+  - fusión: A y B se fusionan dando lugar a una única entidad (e.g. CajaGranada + Sa Nostra = BMN)
+  - adquisición: A compra B, B se integra en la cartera de A sin perder el nombre
+- híbrido: cooperación empresarial (franquicias, subcontratas, UTEs, joint-ventures, acuerdos de colaboración)
+  - joint venture: dos empresas crean una nueva poniendo capital en común
+  - franquicias: la empresa facilita al franquiciado la marca y el /know how/ para que monte su empresa bajo una marca conocida
+  - subcontratas: una empresa contrata a otra especializada en alguna tarea (e.g. reclutación de personal)
+  - UTEs: empresas que se unen y firman una especie de consorcio/acuerdo/convenio para terminar un proyecto (e.g. se usó mucho en el boom de la construcción)
+  - acuerdos de colaboración
+
+***** Reestructuración
+
+Cambios en el campo de actividad reduciendo la importancia de ciertos negocios, o abandonando la explotación de algunas UENs.
+¿Por qué? Mala gestión, escasa rentabilidad, fase de declive del producto.
+
+
+**** Nivel de estrategia competitiva
+
+***** Resumen
+- Nivel de negocio.
+- Responde a cómo competir.
+- Se define para cada negocio (UEN).
+- Aquí se habla de ventaja competitiva
+
+Responsable: jefe de división, responsable de unidad
+Ejemplo: ofrecer mayor calidad en el producto, reducir la estructura de costes
+
+***** Opciones estratégicas
+
+Tipos de ventaja competitiva:
+- liderazgo en costes
+- diferenciación de producto
+
+Fuentes: en qué se basa la estrategia competitiva
+
+****** Liderazgo en costes
+
+margen = precio - coste
+
+Si bajamos los costes, tenemos dos opciones:
+- mantener el precio y elevar el margen de beneficio
+- bajar el precio y mantener el beneficio => más ventas
+
+
+***** Ejemplos
+
+Elcorteinglés: diferenciación
+Lidl: liderazgo en costes
+BMW: diferenciación
+Apple: diferenciación
+Club del Gourmet: enfoque (es un mercado muy reducido), diferenciación
+Bershka: enfoque? (probablemente, va dirigido a un segmento poblacional concreto)
+Bang & Olufsen: enfoque + diferenciación
+El Jueves: enfoque --segmento concreto
+
+***** Se pueden perseguir las dos estrategias?
+
+Porter dice que si lo intentas te quedas /stuck in the middle/, con bajos beneficios.
+
+Hoy día la curva puede ser menos pronunciada.
+
+En principio son incompatibles, sobre todo en manufactura (sector secundario)
+
+**** Nivel funcional
+
+***** Resumen
+- Determina las directrices a seguir en cada área funcional de la empresa.
+- Tiene en cuenta la sinergia y las capacidades distintivas
+- Decisiones en los distintos subsistemas de cada UEN:
+  - Dirección comercial o de marketing
+  - Dirección de la producción
+  - Dirección financiera
+  - Dirección de recursos humanos
+
+Responsable: director de rrhh, director financiero, director de producción, etc.
+Ejemplo: poner en marcha una campaña masiva de marketing, contratar personal
+
+Debe ir en consonancia con lo decidido en niveles previos. e.g. si se pretende tener un producto muy barato evitar campañas de publicidad masiva caras.
+
+** 4.5. Modelos de negocio
+
+El *valor creado* = excedente consumidor + margen empresa
+
+Modelos de negocio: cómo construir la ventaja competitiva, cómo conseguir fabricar un producto.......
+
+Canvas es una metodología para plasmar modelos de negocio :joy:
+
+Ejemplos:
+- El corte inglés (presencialidad) vs. Amazon (automatización)
+- Nespresso (cool) vs. Cafetera italiana (tradicional)
+- Spotify vs. CDs
+
+La clave del diseño del modelo de negocio es *entender el problema del cliente y ofrecerle soluciones*.
+La solución al problema se denomina la *propuesta de valor*.
+
+*** Componentes del modelo
+
+Hay 9 componentes. Importante mantener el orden y tamaño de los bloques en el canvas. La parte izquierda es el backend y la derecha el frontend. Abajo queda la parte financiera.
+
+A la unión de propuesta de valor y segmento de mercado se le llama *encaje de mercado*.
+
+**** Propuesta de valor
+**** Segmentos de clientes
+**** Canales de comunicación con el cliente
+**** Relación con el cliente
+**** Fuentes de ingresos
+No vamos a entrar
+**** Costes
+Tampoco
+**** Asociaciones clave
+Competidores, proveedores, socios, colaboradores...
+**** Canales
+**** Recursos clave
+Recursos esenciales para que el servicio se pueda prestar/el producto se fabrique
+**** Actividades clave
+Se estructuran como *verbos*: acciones esenciales para construir y entregar la propuesta de valor
+
 ** 5. Dirección financiera
+* Trabajos
+** Mitsubishi
+#+AUTHOR:Mario Román, David Charte
+#+OPTIONS: toc:nil
+
+*** Introducción
+
+**** Definición
+
+El Grupo Mitsubishi (三菱グループ) es una /keiretsu/ (系列), una comunidad de empresas independientes. Se puede considerar globalmente como empresa diversificada no relacionada, aunque algunos de los negocios sí guardan relación entre ellos.
+
+**** Historia
+
+#+BEGIN_HTML
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Y_Iwasaki.png" style="float: left;"/>
+#+END_HTML
+
+Fundada por Yataro Iwasaki. Originalmente se dedicó a minería, construcción de barcos, industria bancaria y de seguros. Actualmente es conocida por muy distintos productos y actividades, por ejemplo automóviles y aparatos de refrigeración.
+
+*** Unidades Estratégicas de Negocio
+**** Criterios de subdivisión
+
+Por industria: la empresa participa en varias industrias distintas y clasifica sus negocios por cada una
+
+**** Listado de unidades (comercio)
+
+- Banking & Securities
+- Commerce
+- Insurance
+- Real Estate
+
+**** Listado de unidades (construcción/metales)
+
+- Construction
+- Metal Products
+- Mining, Fishery and Farming
+- Nonferrous Metals
+- Steel Products
+
+**** Listado de unidades (maquinaria)
+
+- Electrical Machinery
+- Machinery
+- Precision Machinery
+
+**** Listado de unidades (químicos/materiales)
+
+- Chemicals
+- Environments
+- Fibers
+- Pulp & Paper
+- Resources & Energy
+- Rubber, Ceramics & Glass
+
+**** Listado de unidades (hostelería)
+
+- Elderly Care
+- Foods
+- Hotel
+- Temporary Staffing
+- Transport Equipment
+- Travel & Recreation
+- Logistics
+
+**** Listado de unidades (consultoría/servicios)
+
+- Consulting & Research
+- Services
+
+**** Listado de unidades (TICs)
+
+- ICT
+
+  
