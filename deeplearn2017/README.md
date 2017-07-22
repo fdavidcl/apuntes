@@ -1,5 +1,3 @@
-![some guggenheim photo](icon.jpg)
-
 # DeepLearn2017
 
 Notes written during the [DeepLearn2017 summer school](http://grammars.grlmc.com/DeepLearn2017/) in Bilbao.
@@ -12,3 +10,6 @@ Courses I attended:
 - *Emotion, Top-Down Attention, and Brain Internal States for Next-Generation Chatbots* (SooYoung Lee)
 - *Cognitive Architectures for Object Recognition in Video* (Jose C. Principe)
 - *Generative Modeling and Unsupervised Learning* (Ying Nian Wu)
+
+![some guggenheim photo](icon.jpg)
+
