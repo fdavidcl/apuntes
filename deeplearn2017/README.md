@@ -1,6 +1,6 @@
 # DeepLearn2017
 
-Notes written during the [DeepLearn2017 summers school](http://grammars.grlmc.com/DeepLearn2017/) in Bilbao.
+Notes written during the [DeepLearn2017 summer school](http://grammars.grlmc.com/DeepLearn2017/) in Bilbao.
 
 Courses I attended:
 
