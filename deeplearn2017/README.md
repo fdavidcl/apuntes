@@ -1,3 +1,5 @@
+![some guggenheim photo](icon.jpg)
+
 # DeepLearn2017
 
 Notes written during the [DeepLearn2017 summer school](http://grammars.grlmc.com/DeepLearn2017/) in Bilbao.
