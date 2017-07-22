@@ -1,2 +1,3 @@
 # apuntes
-Apuntes de varias asignaturas de Informática y Matemáticas
+
+Apuntes de varias asignaturas y cursos.
