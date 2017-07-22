@@ -1,0 +1,1135 @@
+#+TITLE: DeepLearn2017
+
+* Algorithms for reasoning with probabilistic graphical models (Dechter, Ihler)
+** Introduction and inference
+*** Basics of graphical models
+
+Mechanism for describing large complex system $F(X)$ made of smaller, "local" interactions $f_\alpha(x_\alpha)$.
+
+Examples:
+- maximization (MAP)
+- summation and marginalization
+- mixed interence: planning, optimal decision-making, multi-agent problems
+
+Consists of:
+- set of variables $X$
+- set of domains $D$
+- set of functions or factors $F$
+- combination operator defines an overall function from individual factors
+
+$X_i$ values are called /states/. A /configuration/ is a set of states taken by variables. The /scope/ of a factor $f$ is its set of arguments.
+
+For discrete variables, we can think of functions as tables.
+**** Canonical forms
+
+Multiplication (of nonnegative factors) and summation are typically interchangeable by taking log or exp.
+**** Graphical visualization
+
+
+***** Primal graph
+
+- Variables -> nodes
+- Factors -> cliques
+
+***** Example: map coloring
+
+Combination operator is "and", factors are individual constraints.
+
+Tasks: "max" = is there a solution? "sum" = how many solutions?
+
+***** Example: Bayesian networks
+
+Overall function is product of conditional probabilities, factors are these conditions (?).
+
+Tasks: "max" what's the most probable state? "sum" = what's the probability of Y, given X? (belief)
+
+***** Dual graph
+
+- Factor scopes -> nodes
+- Intersections among scopes -> edges
+
+***** Factor graph
+
+More explicit than the others
+
+- Variables -> circle nodes
+- Factors -> square nodes
+- Belonging to a scope -> edge between a square and a circle
+
+***** Exanple: Boltzmann machine
+
+$$p(x)=\frac 1 Z e^{\sum_i a_ix_i+\sum_{i,j} w_{ij} x_ix_j}$$
+
+**** Algorithms overview
+
+***** Types of queries
+
+- max-inference
+- sum-inference
+- mixed-inference
+
+NP-hard!
+
+***** Special case: trees
+
+If the final case is a tree: can be processed in linear time and memory.
+
+***** Transforming into a tree
+
+****** By inference (thinking)
+
+Transform the model into a single, equivalent tree.
+
+Treewidth = /max cluster size/ - 1.
+
+****** By conditionaing (guessing)
+
+Transform it into many tree-like sub-problems.
+
+By assigning (guessing) certain variables, the graph structure becomes simpler as cycles are removed. So, search through the tree of possible assignments.
+
+This is as "slow" as inference, but more compact in space.
+
+
+****** Mixed approach
+
+Search + inference: guess some variables, apply inference on the remaining.
+
+***** Conditioning and elimination operators
+
+****** Conditioning on observations
+
+Observing a variable's value reduces the scope of the factor (in the sense that the variable has a fixed value, so the factor is restricted).
+
+Creates several sparser graphs.
+
+****** Conditional independence
+
+Is X conditionally independent of Y given Z? If, when Z is removed from the graph, there is no path from X to Y, then they're independent.
+
+****** Combination of factors
+
+****** Elimination in a factor
+
+Creates a denser graph.
+
+*** Inference algorithms, exact
+
+**** Bucket elimination for trees
+Perform computation step by step via distributive rule over the function.
+
+**** Bucket elimination
+
+Group factors in buckets in a certain order, each corresponding to a variable. Eliminate variables one at a time.
+
+Complexity: exponential over induced width -> we want to find the smallest induced width.
+
+Non commutative operations restrict the orders that can be chosen.
+
+**** Jointree clustering
+
+Bucket-tree elimination: allows messages both ways through the bucket elimination process in an efficient manner.
+
+Build /jointree/: merge non-maximal buckets (in the dual graph) into maximal clusters. Further merging allows to trade memory for time.
+
+***** Tree decomposition
+
+***** Message passing on the tree decomposition
+
+**** Elimination orders
+
+Finding an order that induces the smallest width is NP-complete. There are several greedy algorithms.
+
+***** Greedy orderings heuristics
+- min-induced-width
+- min-fill (most popular)
+- max-cardinality search
+
+***** Chordal graphs
+A graph is chordal if every cycle of length at least 4 has at least one chord (a diagonal).
+
+
+***** Anytime algorithms
+
+*** Approximate elimination
+
+**** Decomposition bounds
+
+Upper and lower bounds via approximate problem decomposition (not requiring each occurrence of a variable to have the same value).
+
+Reparametrization (cost shifting) can allow to tighten the bounds.
+
+**** Mini-bucket and weighted mini-bucket
+
+When a bucket is too large, split it and perform separate calculations, approximating/bounding the joint result.
+
+Decompositions:
+- $\max (f_1 + f_2) \leq \max f_1 + \max f_2$
+- $\sum f_1 f_2 \leq (\sum f_1^{\frac 1 w_1})^{w_1} (\sum f_2^{\frac 1 w_2})^{w_2}$ (Holder's inequality)
+
+**** Belief propagation
+
+Apply two pass algorithm (for trees) locally on the graph.
+
+** Search
+
+*** And/Or search spaces
+**** Conditioning: the probability tree
+Exponential time but *linear space*.
+
+**** AND/OR search space
+Decompose the problem in an and/or tree built from the pseudotree (e.g. depth first search tree) formed by the graph.
+
+
+This is much cheaper than the OR tree. However, a path to a leaf is not a configuration: instead, for each OR node it includes one of the children, and for each AND node it includes both of them.
+
+***** And/Or counting value
+
+Allows to count the number of valid solutions (e.g. for constraint satisfaction problems) under each node.
+
+***** Pseudotree
+
+Pseudotree: a tree spanning its nodes, where all arcs in the graph not in the tree are back arcs (they connect nodes to their ancestors).
+A chain, by definition, is always a pseudotree. 
+
+**** And/Or search graphs
+
+If two subtrees are identical, we would like to merge them and solve them only once.
+
+No longer linear memory (caches are needed to recover previously solved subtrees), but search space becomes smaller.
+
+***** Merging based on context
+
+context = ancestors of X in pseudotree that are connected either to X or to descendants of X. Theorem: max #context = induced width.
+
+Any query is best computed over the context-minimal And/Or graph.
+
+***** Variable elimination over the And/Or graph
+
+Variable elimination can be done bottom-to-top through the AO graph, processing "chunks" of nodes (from the same variable at a time).
+
+**** Building good psudotrees
+
+The bucket tree previously discussed is actually a pseudotree.
+
+Finding small height/width pseudotrees is NP-hard.
+
+Optimality of induced width and pseudotree height cannot be achieved at once.
+
+***** Min-Fill
+
+***** Hypergraph partitioning
+
+**** Brute-force And/Or
+
+*** Heuristic search for And/Or spaces
+
+**** Basic Heuristic search
+
+**** Depth-first AO
+
+AOBB: And/Or branch & bound.
+
+Breadth-rotating AOBB: takes turns processing sub-problem.
+
+**** Best-first AO
+
+AOBF
+
+
+** Approximate inference
+
+*** Introduction
+
+**** Example: DBMs
+
+784 px $\leftrightarrow$ 500 mid $\leftrightarrow$ 500 high $\leftrightarrow$ 2000 top $\leftrightarrow$ 10 labels
+
+Induce width: ~2000 :( $\Rightarrow$ can't use exact inference
+
+**** Algorithms
+
+We want anytime algorithms: very fast and approximate, or slower and more accurate.
+
+*** Variational methods
+
+**** Vector space representation
+
+- concatenate the tables of the factors into a vector. Also include the possible values of the variables into a similar vector, so that evaluating factors becomes a dot product.
+
+**** Inference tasks
+
+- distribution is an exponential family
+- tasks os interest are convex functions of the model
+
+**** Tree reweighted MAP (TRW MAP)
+
+Let $T_1, T_2$ be two tree-structured models. By convexity, 
+- $\max_x\theta x\leq w_1 \max_x\theta^{(1)}x+w_2 \max_x\theta^{(2)}x$
+
+ Later we can try to minimize this bound.
+
+TRW MAP is equivalent to MAP decomposition.
+
+**** Tree reweighted sum
+
+Same principle as TRW.
+
+**** Negative TRW
+
+Extrapolation gives lower bounds.
+
+**** Variational perspectives
+
+***** Mean field
+
+
+
+*** Monte-carlo sampling
+
+**** Monte Carlo estimator
+
+- Basic form: empirical estimate of probability.
+- For this, we need to be able to sample from the target distribution or, at least, evaluate p(x) explicitly or up to a constant.
+- Good anytime properties: use time to geneerate more samples and improve the approximation.
+- Central limit theorem kicks in very fast
+- Almost all the mass is around the average, so this can give us finite sample confidence intervals.
+
+**** Sampling in Bayes nets
+
+***** No evidence
+The structure shows exactly how to sample from the distributions: start from root(s), sample downward.
+
+***** With evidence
+
+Relative error bounds are better than finite error bounds in case of small probabilities.
+
+When estimating posteriors, rejection sampling and 'estimate the ratio' don't work well with small probabilities.
+
+***** Exact sampling via imference
+
+Draw samples from $P[A\mid E=e]$ directly? Build oriented tree decomposition and sample. This process is slow (exponential), but sampling is fast.
+
+**** Importance sampling
+
+Choose $q(x)$ easy to sample from.
+
+$$\int p(x)u(x) = \int q(x)\frac{p(x)}{q(x)} u(x)\approx \frac 1 m \sum_i \frac{p(\tilde x^{(i)})}{q(\tilde x^{(i)})} {u(\tilde x^{(i)})}, \tilde x^{(i)}\sim q(x)$$
+
+IS is unbiased or at least asymotically unbiased.
+
+Can give poor performance:
+- if $q(x) << u(x)p(x)$: rare (unlikely) but very high weights
+- To have guarantees, analitically bound variance
+
+WMB-IS gives and improves bounds as samples are drawn. There are other choices of [$q(x)$] proposals: based on belief propagation, adaptive importance sampling...
+
+**** Markov Chain Monte Carlo
+
+***** Markov Chain
+
+Simple temporal model where the state at time t only depends on state at t-1. It's homogeneous in the sense that $p(X_t\mid X_{t-1})$ does not depend on $t$. Examples:
+- random walks
+- finite state machine
+
+When (if) a Markov chain gets to a stable situation, that's called a /stationary distribution/. This stationary distribution may not exist (e.g. a deterministic cycle of states doesn't stabilise). Sufficient conditions:
+- $p(.\mid .)$ is acyclic
+- $p(.\mid .)$ is irreducible
+
+***** Markov Chain Monte Carlo
+
+Create a Markov chain where each state is a complete configuration of our distribution. As the chain goes forward, if the initial states /samples were carefully chosen, the stationary distribution will be our $p(x)$.
+
+****** Metropolis-Hastings sampling
+
+Pick function $q$ to get next step.
+
+- At each step, propose new value $x'\sim q(x'\mid x)$
+- Decide wether we should move there according to $p$.
+
+****** Gibbs sampling
+Proceed in rounds: sample each variable in turn given all others' most recent values. Conditional distributions depend only on the Markov blanket.
+
+It's easy to see that $p(x)$ is stationary.
+
+Some advantages over Metropolis: no rejections (although there's the possibility of staying in place), no free parameters; *but* moves are local.
+
+****** Example: DBMs
+
+MCMC is probably the most popular algorithm to train RBMs/DBMs.
+
+Used in both model training (contrastive divergence, persistence CD...) and model validation (annealed & reverse annealed importance sampling...).
+
+****** MCMC and common queries
+
+Estimating expectations is easy!
+
+****** ...
+
+Samples from $p(x)$ asymptotically (in time), but they're not independent.
+
+Rate of convergence depends on proposal distribution for MH and variable dependence for Gibbs. Mixing rate is difficult to measure though.
+
+***** Inference within samples
+
+
+
+* Deep learning for speech recognition (Deng)
+
+** Rescuing from gradient vanishing
+
+- Pre-training DBN
+- Discriminative x? -> pre-training
+- random weights controlling variance
+- ReLU
+
+*** LSTM (long short-term memory)
+
+For RNNs?
+
+Simplification: Gated recurrent unit (GRU)
+
+** Speech
+
+*** Deep Generative models
+
+Difficulties:
+- inference (is NP-hard; approximations via variational techniques)
+- explaining away (?)
+
+A stack of RBMs is not a DBM but a DBN.
+
+Decoding from DBN is simple, training is slooow.
+
+
+
+* Deep Generative Models and Unsupervised Learning (Wu)
+** Overview
+*** Modes of learning
+
+Generative models, density estimation: approximate a probability distribution from observed data
+
+*** Deep Learning
+
+Using CNNs we can build generative models: top-down deconvolutional image synthesis.
+
+*** Latent variable model
+
+A normal distribution for the latent (hidden) variables $h$ is assumed.
+
+Interpolation in the latent space can be done: infer the latent variables for several images and interpolate in $h$ to then rebuild images through the top-down synthesis.
+
+*** Energy based model
+
+$$p(X;W)=\frac{1}{Z(W)} \exp(f(X;W))q(X)$$
+
+The parameters $W$ are learned during the bottom-up convolutional feature extraction, looking to minimize the energy function. This model cannot be sampled directly though.
+
+The sampling can be approximated (?) using MCMC. This is called a /descriptive net/ (since it's sampled as in descriptive statistics).
+
+*** Dual networks
+
+Bottom-up net:
+- variational bayes autoencoder: inference net
+- generative adversarial training: discriminator net
+- cooperative learning: descriptor net
+
+Top-down net: generator net
+
+** Latent Variable Models
+
+The aim is to obtain a vector of hidden variables that explain the inputs.
+
+*** Linear latent variable models
+
+Top-down from hidden variables: $X_i=Wh_i+\varepsilon_i, i=1,\dots,n$.
+
+**** Factor analysis
+
+Zero-mean normal distributions are assumed for $h_i$ and $\varepsilon_i$.
+
+Example: decathlon $p=10$, $h_i=$ (strength, speed, endurance), $d=3$.
+
+We can generalize the model by assuming other distributions, and non-linear mappings.
+
+**** Independent component analysis
+
+$d=p\Rightarrow W$ is square.
+
+$h_{ik}\sim p_k$ independently. $X_i=Wh_i,h_i=AX_i,p(X)=p(h)\lvert\det(A)\rvert$.
+
+**** Sparse coding
+
+$d > p$ the number of latent factors is larger than the visible factors. However, $h_i$ is sparse vector.
+
+**** Non-negative matrix factorization
+
+$h_i$ is positive vector. $X_i=Wh_i+\varepsilon_i$.
+
+**** Recommender system
+
+User i's rating of item j, $x_{ij}=\left<w_j,h_i\right>+\varepsilon_{ij}$. The latent features refer to the user's desires, and the visible ones to their desirabilities.
+
+**** Restricted Boltzmann machine
+
+$$(h_i,X_i)\sim p(h,X\mid W)=\frac{1}{Z(W)}\exp(X^TWh)$$
+
+Explicit inference distributions:
+
+- $p(h\mid X,W):h_k\sim \mathrm{logistic}(\sum_j w_{j,k}x_j)$
+- $p(X\mid h,W):X=Wh+\varepsilon,\varepsilon\sim \mathcal N(0,\sigma^2I_p)$
+
+**** Autoencoder
+
+- Encoding: $h_k=\mathrm{sigmoid}(\sum_j w_{j,k}x_j)
+- Decoding: $X=Wh+\varepsilon$
+
+**** Stacked RBM or AE
+
+Trat $h$ as new input, learn layer-wise.
+
+*** Generator network (CNN in the top-down process)
+
+Powerful non-linear approximation.
+
+Learning generator network in an unsupervised way: assume $h\sim \mathcal N(0,I_d)$, let $X=g(h;W)+\varepsilon$ and for each layer $l$, $h^{(l-1)}=g_l(W_lh^(l)+b_l)$ where $h^{(L)}=X$, $h^{(0)} =h$(?).
+
+**** Alternating back-propagation
+
+Loss function $$L=\sum_i \lVert X_i-g(h_i;W)\rVert^2$$
+
+- Inference: $h_i\gets h_i+\gamma \frac{\partial L_i}{\partial h_i}$
+- Learning: $W\gets W+\gamma \frac{\partial L}{\partial W}$
+
+Most of the computation is shared among inference and learning, so the unsupervised part (inference) comes almost for free.
+
+Langevin dynamics = Gradient descen + adding some noise.
+
+While learning, inference should be not as good, so we add noise so that we force the network to learn.
+
+*** Learning and inference
+
+**** Unsupervised learning
+
+$$\mathrm{Likelihood}(\theta) =\Pi_i p(X-i;\theta)$$
+
+Maximum likelihood: $\hat \theta = \mathrm{argmax}_\theta L(\theta)$
+- most plausible explanation of data
+- most accurate unbiased estimator
+
+Kullback-Leibler divergence view: $\hat\theta = \mathrm{argmin}_\theta KL(P_{\mathrm{data}}\mid p_{\theta})$. We can think of this as a projection of $P_{\mathrm{data}}$ onto $\{p_\theta,\forall\theta\}$.
+
+**** Max likelihood with latent variables
+
+Something about multiple guesses
+
+**** Learned inference
+
+Instead of learning a function, learn a posterior distribution. Then, the decoding direction will be easy to compute:
+- decoding: $X_i=g(h_i;W_{down})+\varepsilon_i$
+- encoding: $h_i\sim \athcal N(f_\mu(X_i;W_{up}),f_{\sigma^2}(X_i;W_{up}))$
+
+Wake-sleep algorithm.
+- Sleep: $W_{down}\rightarrow$ dream data. $(h_i,X_i) \rightarrow W_{up}$
+- Wake: real $X_i\rightarrow h_i$ by $W_{up}$. $(h_i,X_i) \rightarrow W_{down}$
+
+**** Variational Bayes
+
+- Variational autoencoder
+
+** Dual Nets
+
+*** Introduction
+
+- Bottom-up convnet: energy $\leftarrow$ signal (descriptor net)
+- Top-down convnet: latent variables $\rightarrow$ signal (generator net)
+
+
+In the bottom up direction, we compute an energy function optimize so that its values are low. Based on statistical mechanics, where low energy states are more likely. So if we sample from this distribution, most of the samples have a low energy state. 
+
+*** Energy-based model
+
+**** Descriptor net
+
+$$p(X;\theta)=\frac{1}{Z(\theta)} \exp(f(X;\theta))p_0(X),$$
+where $p_0(X)$ is the reference distribution (e.g. gaussian white noise) and $Z$ is the normalizing constant.
+
+The associated energy function is $E$, so that $p(X;\theta)=1/Z(\theta)\exp(-E(X))$. This way, if the energy of the /state/ ($X$) is low, its probability is very high.
+
+How do we estimate $\theta$ from observed images? We can use max likelihood learning. The log-likelihood is $L_p(\theta)=\frac 1 n \sum_i \log p(X_i;\theta)$. We can also minimize the Kullback-Leibler divergence. 
+
+If we take the derivative of the log likelihood, we can use gradient descent to update our parameters. But it includes an expectation, which can be hard to evaluate. To solve that, we choose to sample from the distribution (Langevin revision, on the style of gradient descent). The samples drawn should be of low energy, so we then /shift/ our density function (density shifting) so that it sits closer to the low energy regions, thus updating our parameters.
+
+**** ConvNet
+
+For the energy minimization, we need the same kind of derivatives than when we sample the distribution, they can be computed via backpropagation and share some common terms.
+
+We can say that the sampling of synthesized examples is a /dreaming/ phase, and the updates of parameters allow to make the dreams more realistic.
+
+*Note*: dreams are not reconstructions of observed images, although they maintain similar appearance to them.
+
+**** Multigrid scheme
+
+Sampling images is costly (even with contrastive divergence) but we can use several stages (4x4 -> 16x16 -> 64x64).
+
+**** Recruit a sampler
+
+The bottom-up net for the energy-based model can recruit a generator network as a sampler
+
+*** Latent variable model
+
+Can generate samples using MCMC.
+
+**** Alternating backprop/graddesc
+
+This time we use loss $L=\sum_i \lVert X_i - g(h_i;\alpha)\rVert^2$.
+
+For inference, we update $h_i$, whereas for learning we update the parameters $\alpha$.
+
+The inference step is rather costly. Graddesc is used but we can also use Langevin dynamics.
+
+1. thinking, explaining away reasoning (from the observed images).
+2. make the thinking more accurate.
+
+*** Cooperative learning
+
+Both models involve gradient descent in a difficult phase. However, the simple/direct phases of each one are complementary.
+
+We can see the descriptor net as a teacher, and the generator net as a student:
+1. student generates "draft"
+2. teacher runs gradient descent on the energy perspective and revises the draft
+3. student learns from draft and reconstruct revised draft (because ir knows the latent factors)
+4. teacher learns from "outside review", student's samples (shifts from initial towards revised)
+
+This way the inference step in the generator is not needed, and we get a sampler for the descriptor net.
+
+Inference is inconvinient because there are no guarantees that the model infered is accurate or realistic.
+
+**** MCMC teaching
+
+Using gradient descent, from an information theoretic perspective, the generator net is trained to "move" closer to the descriptor.
+
+*** Related models
+
+**** Heimholtz machine
+
+In the previous generator network: only first layer is stochastic, rest of layers are deterministic. 
+
+In a Heimholtz machine, each layer is binary and stochastic: latent layer is bernoulli(p), rest of layers are logistic regression-like, bernoulli(sigmoid(linear comb)). It is trained by wake-sleep.
+
+**** Deep Boltzmann machine
+
+The energy function involves many layers. Also, latent variables are binary. Its training is expensive.
+
+This model is related to the DBN (RBM + sigmoid).
+
+**** Generative Adversarial Net
+
+Instead of energy-based Descriptor, we have a Discriminator and Generator. They play a minimax game where the generator tries to deceive the Discriminator and the Discriminator learns not to be fooled with its examples.
+
+**** Introspective generative modeling
+
+Progressively learning by repeated discriminations. Do classification, improve distribution via SGD and repeat.
+
+Along the way, it trains a classifier that works better than just learning from the observed data.
+
+**** Auto-regressive models, PixelRNN
+
+**** ICA generalization
+
+$d = p$, use $X_i=g(h_i;W)$ and $h_i=g^{-1}(X_i;W)$ with some restrictions so that weights can be updated. Apply auto-regressive structure on $h$.
+
+Example: Real NVP.
+
+**** Activation maximization
+
+Example: Plug and Play Network, uses denoising autoencoder to sample $h$ from an implicit $p(h)$ [Nguyen et al 2017]
+
+**** Diffusion model
+
+* Deep Learning at NVIDIA (Breuel)
+
+Site: [[http://9x9.com]] (slides, reading lists, etc.)
+
+- Berger's Statistical Decision Theory and Bayesian Analysis
+
+** Different views of Deep Learning
+*** NVidia stuff/promo
+**** Tesla V100
+
+Includes own tensor core: 120 Tensor TFLOPS
+
+DGX-1 = 400 servers in a box
+
+**** Embedded AI processor for autonomous machines
+
+**** Tensorrt
+
+Compiler for Tensorflow
+
+**** Nvidia drive
+
+Working with Toyota
+
+**** Project Holodeck
+
+**** Isaac robot simulator
+
+**** NVidia mainly sells hardware
+
+Easy collaboration with academic groups and other companies, standard research environment, etc.
+
+*** Deep learning view
+
+**** Qs
+
+- What is L1 loss and when would you use it?
+- batch normalization?
+- architecture of a GAN?
+- autoencoding for pre-training?
+
+**** Primary DL frameworks
+- PyTorch (!)
+  - automatic, dynamic differentiation when desired
+- Tensorflow
+
+***** Pipe notation
+tfspecs/dlpipes
+
+Shorthand for some models, e.g. =lecun89 = Cs(12, 5)**2 | Flat() | Fs(30) | Fs(10)=
+
+Similar to =%>%= in R?
+
+**** Distributed training
+
+Hundreds of servers to store data $\Rightarrow$ hundreds of nodes to lightweight preprocessing and shuffle the data $\Rightarrow$ 8x 8-GPU nodes to compute stuff.
+
+Stochastic Gradient Descent is robust to failures and numeric errors =:D= This is why DL infrastructures are built like web infrastructures, where nodes are assumed to fail.
+
+*** Is DL all you need?
+
+A lot of recent advances in DL look like very general purpose methods/techniques and are not domain[problem]-specific.
+
+**** NFL, Bayesian theorems
+
+"For most decision rules, you can find some prios that makes that decision rule Bayes-optimal". Similar to No Free Lunch theorems.
+
+Conclusion: there's no universal [artificial] neural network, the domain matters!
+
+*** Computer vision view
+
+**** Edge detection with Canny
+
+Assumes noisy step edges, construct an edge detector using an optimal linear filter [Canny, 1986]. Precursor of DL for edge detection.
+
+Deep Learning approach: train one filter for edge localization and multiple additional filters for false positive suppresion. DL *can* also supress spurious boundary responses: instead of a single localizer, train two localization filters (each offset by one pixel from the actual localization).
+
+Lessons: even simple suboptimal nonlinear models can perform better than optimal linear models.
+
+*** Computer science view
+
+**** 
+
+Sigmoidal units converge to linear threshold units: $\lim_{\alpha\rightarrow\infty} \sigma(\alpha Mx+\alpha b)=floor(Mx+b > 0)$
+
+**** NNs and boolean circuits
+
+Any neural networks has a boolean circuit equivalent (and vice versa!)
+
+Bool circuits as NNs:
+- start with an algorithm or boolean circuit
+- binary -> real, and -> multiply, or -> add + sigmoid
+
+NNs as bool circuits:
+- boolean circuit complexity transfers to NNs
+
+**** Complexity results
+
+AC0?
+
+PAC learnable?
+
+Perceptron analysis?
+
+**** How does complexity show up in DL?
+
+*Computational complexity problems turn into exponential numbers of local minima.*
+
+Example: pick bool satisfabiability problem, build an equivalent NN, try to solve via SGD, this doesn't get around NP-hardness!
+
+*** Pattern recognition view
+
+How do fully connected layers relate to traditional ML algorithms?
+
+What is the difference between PCA and a linear autoencoder?
+
+A NN can act like PCA, ICA, VQ...
+
+*** Signal processing view
+
+**** Convolutions
+
+Convolutions are linear operations on the input. Convolutional layers are just a special case of a fully connected layer, but with some parameter tying and specific Toeplitz (diagonal-like) matrix structure. These two properties are not really present (at least, not forced) in our biological vision system.
+
+Translation invariants can be built into the algorithms (e.g. CNN) or learned from data. Object recognition is *not* necessarily translation-invariant (blue patch above horizon is sky, below horizon is puddle of water)
+
+**** Footprint
+
+In a convolutional layer, pixels in the output depend only on a subset of the pixels of the input. Max-pooling and stacking conv layers extend this footprint.
+
+**** Checkerboards as aliasing
+
+From an image processing point of view, image generation with CNNs lacks anti-aliasing. 
+
+**** Separability
+
+Cl(n, r) ~ Cl(n', (1, e)) | Cl(n', (r, 1))
+
+**** Filters and convolutional layers
+
+Classic useful nonlinear filters: median, percentile, morphology. Conv layers (with nonlinearities) cannot implement such filters in general but, for a given input distribution, they often can give a good approximation. Batch normalization may make nonlinearities much more effective.
+
+*** Decision theoretic view
+
+**** Loss functions
+
+***** Zero-one
+
+Classification occurs according to the maximum of the posterior probability (proof needed).
+
+***** Decision matrix
+
+***** Stuff
+
+Both sigmoidal outputs with mean squared error and softmax outputs asymptotically approximate posterior probabilities, but convergence is difference.
+
+***** Example: impalanced training set
+
+When resampling or using training weights, prior probabilities are altered! We need to take this into account to correct posteriors.
+
+** Sequence modeling
+
+*** Hidden Markov models
+
+**** Markov chain
+
+Markov chains are discrete time sequences described by state graphs: with some probability we pass from one state to other.
+
+**** Markov models and probabilities
+
+Markov property: Markov models are memory-less, the probabilities of the current state only depend on the probabilities from the previous one.
+
+**** Language models
+
+A language model assigns probabilities to strings.
+
+***** Useful language models
+
+The set of possible strings over an alphabet is infinite. So we want language models where we can get information like "what is the most likely sequence?".
+
+***** Example: most likely sequence
+
+log probaility of a path is equal to the sum of the log probabilities of each traversed node.
+
+Finding the most likely path consists in finding a shortest path.
+
+**** Hidden markove models
+
+HMMs are like Markov models but you cannot observe (some of) the states directly. 
+
+**** HMM algorithms
+
+Inference:
+- given seq of observations, infer the state sequence
+- Viterbi algorithm: what is the most likely seq
+- Forward backward: what is the probability distribution at time t
+
+Training:
+- Baum-Welch training: update the parameters given sample sequences. It's a type of EM algorithm.
+
+**** Transducers
+
+Slight generalization of HMMs encoding I/O transformations, written as states with transitions on the edges.
+
+**** HMM speech recognition with transducers
+
+Can build a modular, classic speech recognition algorithm with transducers. Modern algorithms (nn-based) are less modular but more efficient.
+
+*** Simple RNNs
+
+At each time point, the current input is feeded to the network as well as the previous output. This process can be unrolled for training, but this suffers from the vanishing gradient problem.
+
+**** HMMs vs RNNs
+
+An HMM/transducer is a generative model, but an RNN is a discriminative model.
+
+Can we use HMMs for prediction as well? Yes, *but* performance would be poor (inference is non-Markovian: what we decide at a later step can actually depend on inputs way before that), and you'd lose all of the other nice properties.
+
+**** CTC
+
+Sequences of different lengths -> add an "empty" symbol =#=
+
+We now need to align/match the ground truth with the obtained output so that we train our sequence model "in the right place": e.g. "LIEBE KATZE" generates "MO#CE COT##", ground truth is "NICE CAT", aligned ground truth is "NI#CE CAT##".
+
+Algorithm: "reverse" Viterbi of Forward backward.
+
+** LSTMs
+Motivation for LSTMs is 2-fold:
+1. An architectural design for a memory cell that can be stored and then read. This design can be applied to NNs replacing hard switches for multipliers and input signals for learned models.
+2. Getting a structure unrolled in time that solves the problem of vanishing gradients. LSTMs achieve this.
+
+*** Capabilities
+
+**** Delay
+
+LSTM can implement the delay of a signal. In order to implement the delay, you need to store all the bits according to the period, so this can test the memory capacity of your LSTM
+
+**** Mod 2
+
+LSTMs can detect pairs (or more) pulses, and change its state (up or down) for the first and reset it for the second. Same for mod-n.
+
+**** Backwards delay
+
+LSTMs and RNNs are /causal filters/.
+
+**** Linear filters
+
+*** Computer Science View
+
+LSTMs can learn (some) regular languages, (some) context free languages, and (some) context dependent languages.
+
+*Note* [[http://youtu.be/vXgJ3M9C-_E][vXgJ3M9C-_E]] includes some fancy visualizations of the behavior of LSTMs.
+
+*** LSTMs are drop-in replacements for convolutions
+
+Both have the same kind of input and output. But they have many more capabilities: large linear filters, lg/variable delay, mod n, some regular, context free and context dependent languages.
+
+However, LSTMs may be more costly than conv layers when both work, and don't parallelize as well. LSTMs probably are not as efficient for applications invoolving memorizing a large number of patterns in weights.
+
+*** Multidimensional LSTM
+
+- 2DLSTMs are constructed like separable filtes
+- 2DLSTM are drop-in replacements for conv2d
+
+** Text recognition
+
+*** The Dropbox system
+
+Pipeline: take photo of document -> line / word detection -> word detection -> word recognition.
+
+word detection: didn't use DL :(
+
+word recognizer: stack of convlayers -> stac of bi-directional lstm layers -> CTC layer
+
+They also used synthetic data.
+
+Their total word recognition rate was 44%. Sources of error: places were they didn't use DL. Some corrections using dictionaries.
+
+*** Ideas for improvement
+
+*Don't use word detection!* Agglutinative languages exist (Finnish!), and the concept of words isn't useful for japanese/chinese.
+
+*Don't ignore state of the art!*
+
+*** Fully Deep Learning based pipeline
+
+**** Layout analysis
+
+Distinguish columns/sections of text, and different zones such as math formulas, images and tables. Also, discard border noise, including parts of pages we don't want.
+
+ConvNets fail miserably here, partly because they can't propagate info through long distances and they are designed not to discern the absolute position of elements.
+
+**** Rational DL Design
+
+To design a good DL system:
+- start with a non-DL image processing pipeline
+- replace each module with a equivalently trainable neural network architecture
+- ?
+- profit
+
+**** Layout analysis with MDLSTM
+
+Yo can think of the layout analysis problem as a simple context-free or context-dependent language that can be learned by the MDLSTM.
+
+** Image segmentation with conv nets
+
+Problems:
+- semantic segmentation (distinguish different objects from background and from each other)
+- object localization (knowing what object is in the image, localize it)
+- human pose estimation
+  - hierarchical/sequential approach: first localize center of body, then other locations relatively
+- video classification
+  - uses two kinds of resolutions, akin to eye's fovea
+- tracking (track a car/person/object along time in a video)
+  - pretrains a denoising autoencoder to get a rich feature representation
+  - at tracking time, add a final logistic layer to the autoencoder representation to obtain a classifier for the target rectangle
+  - combine this with particle filtering for final tracking
+- superresolution
+- edge detection
+- semantic edge detection
+- intrinsic image decomposition
+- optical flow
+-
+
+*** Analysis
+
+All these methods maintain a common AlexNet-like architecture, upscale at the end when needed and introduce skip connections (connections from early layers to the last ones) to transfer some of the original information.
+
+Level sets are interesting because they model regions and edges simultaneously.
+
+
+* Emotion, Top-Down Attention, and Brain Internal States for Next-Generation Chatbots (Lee)
+
+** Introduction
+
+** Emotion
+
+** Top-Down Attention
+
+*** Perception
+
+Audiovisual senses require much more processing than olfatory, smell and touch.
+
+Photosensors in our retina: several millions, ~100 refreshes per sec (?), 3 colors = some MB/s?
+Audio: roughly 40 KB/s
+
+Our audio and video information are coupled in the brain: McGurk and Stroop effects.
+
+*** Classical approaches
+
+A/V integration: early or late
+- Early integration: features are concatenated and passed to the same learners
+- Late integration: separate learners, outputs are concatenated
+
+Early integration sounds more plausible but is not accurate to the brain structure. Late integration cannot explain/simulate the McGurk effect among other phenomena.
+
+*** Bottom-up attention
+
+Doesn't generally use any bias.
+
+*** Top-down attention
+
+Gets influenced by bias: memory, "personality"...
+
+Essentially, previous information allows to fill any missing stuff or eliminate stuff we don't care about, thus /improving/ our attention according to our bias.
+
+**** Feature similarity gain model
+
+An /attention gain/ is attached to the inputs
+
+**** Multiplied (gated) model
+
+The attention parameters may be calculated by the input data (bottom-up) or by generated outputs (top-down) or both.
+
+**** Top-down selective attention (TDSA)
+
+Top-down attention starts acting when the classifier is undecided between several classes. This way, the classifier attempts to recognize the data as one of the possible classes, modifying the attention (in a top-down fashion) so that the classifier obtains a new class output. If the difference is very small, then the class is (likely to be) incorrect. If its probability goes way up, then it's (likely) correct. Attention then shifts to other possibilities and the cycle is repeated.
+
+** Brain Internal States
+
+
+*  (Principe)
+
+** Requisites for a cognitive architecture
+
+*** Human inspired sensory processing
+
+**** Functions of human cognition
+Cognition is a metal process by which knowledge is acquired, incl. perception, intuition and reasoning. Four fundamental functions: atttention (capacity to filter unnecessary data from a huge stream), memory, perception action cycle, intelligence.
+
+**** Perception-action-reward cycle
+
+3 sources of knowledge: genetics, interaction with the environment, society.
+
+Brain is a real time system that does predictions: only has information in the past, acts on the future.
+
+**** Fuster's hierarchy
+
+Each perception area in the brain has a corresponding area for execution/motor functions.
+
+**** Perception as an active process
+
+Idea: perception is an *active* process based on context and predictions. In the brain, there are top-down connections to the sensors: this way sensors may be biased to extract what they consider important.
+
+Human visual system: ventral pathway (object identification, works in the foveal region, uses lt memory to stor representations of objects) and dorsal pathway (object location, spatial perception and motion, requires working memory).
+
+Idea: model perception as a continuous loop to extract events in the real world, mimicking saccades.
+
+*** Cognitive perception architecture
+
+*Generative model for learning and memory*
+
+- Feature extraction for movies: sparse coding of low-level features
+- (Locally) Invariant representations
+- Feature hierarchies
+
+*** How technologists approach memory and perception
+
+Differently from biology. Memory in a Turing machine is a second-class citizen.
+
+** Putting the cognitive architecture together
+
+
+*** Cognitivev model for object recognition in video
+
+It learns autonomously to represent the external world. It's bidirectional so that the top levels can be mixed with sensory data.
+
+Generative model: parameters are trained to represent the input in an effective way.
+
+*** Hierarchical dynamic model with unknown inputs
+
+It's a hierarchical model, it can be stacked, each module comes up with causes for the inputs (?).
+
+On a patch of the video image:
+- feature extraction: create an overcomplete state representation of the patch -> infer states. This uses a dynamic sparse coding model, with an energy function (neg log likelihood). Nestrov's smoothness,
+- pooling: extract invariants on the image -> infer causes. Minimize an energy functional
+
+*** Learned features and invariances
+
+The measurement matrix C (uses sparse coding) is acting like the visual cortex of the brain.
+
+**** Receptive fields
+
+The model predicts that images are smooth in time (they don't change abruptly).
+
+*** Multi-layered architecture
+
+Just a tree structure with tiling of scene at the bottom. 
+
+Scalable version: use convolutions for bigger images.
+
+*** Recognition in noisy conditions
+
+A connection from the previous top cause to the input can compensate for noise/occlusion in images (and audio).
+
+** Attention based video recognition
+
+This takes inpiration on the saccades so that the model fixates on small parts of the image, scan them and do recognition, and repeat the process with another part.
+
+They used a Lytro camera (pictures that can be refocused) to approximate the foveation.
+
+*** Salicency
+
+The quality by which an object stands out relative to its neighbors. This correlates well with eye-tracking systems.
+
+*** Human inspired scene understanding
+
+Use the refocusing and saliency to approximate the saccade. When a image patch is recognised, negative saliency is applied to it in order to look for other objects.
+
+Saliency could also work top-down: the system can focus on what it knows is important.
+
+Internal attention is better than bottom-up saliency. 
+
+
+
+* Foundations of Deep Learning and Recent Advances (Salakhutdinov)
+
+On Youtube: [[https://simons.berkeley.edu/talks/tutorial-deep-learning]]
+
+* Ideas
+** Conv-multilabel
+
+en lugar de softmax, función de binarización en la capa de salida
+** Autoencoder composition
+
+or online adding a smaller encoding layer and progressively fine-tuning
