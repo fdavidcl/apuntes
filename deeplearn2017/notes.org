@@ -647,6 +647,7 @@ Example: Plug and Play Network, uses denoising autoencoder to sample $h$ from an
 
 **** Diffusion model
 
+
 * Deep Learning at NVIDIA (Breuel)
 
 Site: [[http://9x9.com]] (slides, reading lists, etc.)
@@ -980,9 +981,34 @@ Level sets are interesting because they model regions and edges simultaneously.
 
 * Emotion, Top-Down Attention, and Brain Internal States for Next-Generation Chatbots (Lee)
 
-** Introduction
-
 ** Emotion
+*** Artificial cognitive system
+Backbone:
+- Proactive model
+- self-identity model (/personality/, what to learn?)
+
+Learning (higher cognitive functions):
+1. knowledge representation
+2. situation awareness
+3. decision making
+4. action
+*** Brain internal states
+**** Hypothesis
+From fast to slow:
+- Agree/disagree, trust/distrust
+- Emotion
+- Memory
+- Personality
+*** Emotion recognition
+Biological inspiration because it looks for efficiency.
+**** EmotiW2015 competition
+Technique: hierarchical committee of Deep CNNs
+
+Human perception is relative to context. This is related to how CNNs process local features.
+**** Hierarchical CNNs: Diverse CNNs
+6 input normalization, 12 network architectures, 3 random initializations.
+
+Exponentially-weighted average fusion (better members are taken more into account).
 
 ** Top-Down Attention
 
@@ -1028,7 +1054,7 @@ Top-down attention starts acting when the classifier is undecided between severa
 ** Brain Internal States
 
 
-*  (Principe)
+* Cognitive Architectures for Object Recognition in Video (Principe)
 
 ** Requisites for a cognitive architecture
 
@@ -1126,10 +1152,3 @@ Internal attention is better than bottom-up saliency.
 
 On Youtube: [[https://simons.berkeley.edu/talks/tutorial-deep-learning]]
 
-* Ideas
-** Conv-multilabel
-
-en lugar de softmax, función de binarización en la capa de salida
-** Autoencoder composition
-
-or online adding a smaller encoding layer and progressively fine-tuning
